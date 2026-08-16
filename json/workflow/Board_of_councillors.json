@@ -1,0 +1,1770 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "e9ead6c7-9d0f-4e23-828c-5d37bebfa36c",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        32,
+        768
+      ],
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Main_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/setloops",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    },
+                    "id": "60ff4720-0f5d-4c0f-844c-e753e3baabf8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "setloops"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/new",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    },
+                    "id": "0ca776e3-8849-4c16-88df-031f1b8dc329"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "new"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/clear",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    },
+                    "id": "545d2db7-2b44-4a66-bebd-b0207d873f84"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "clear"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "18a5d1b0-6570-47e6-823c-207964e6b7f2",
+                    "leftValue": "true",
+                    "rightValue": "true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "query"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ae679092-2636-47ef-b948-b863f5eb80d5",
+      "name": "Command Router",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        256,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "var crypto = require('crypto')\nreturn {\n  new_uuid: crypto.randomUUID()\n};"
+      },
+      "id": "43272ed8-7123-48ec-843f-6104d1b4cabe",
+      "name": "Generate New Session ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "session_state",
+          "mode": "list",
+          "cachedResultName": "session_state"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "current_session_id": "={{ $json.new_uuid }}",
+            "updated_at": "={{ $now }}",
+            "chat_id": "={{ $('Command Router').item.json.message.chat.id }}",
+            "max_loops": 1
+          },
+          "matchingColumns": [
+            "chat_id"
+          ],
+          "schema": [
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "current_session_id",
+              "displayName": "current_session_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false,
+              "removed": false
+            },
+            {
+              "id": "max_loops",
+              "displayName": "max_loops",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": false,
+              "removed": false
+            },
+            {
+              "id": "updated_at",
+              "displayName": "updated_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "4c57af91-d9c1-49a4-ad5e-fe4470e8f590",
+      "name": "Update Session Pointer",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        800,
+        496
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE session_state \nSET \n    max_loops = {{ parseInt($json.message.text.split(' ')[1]) }},\n    updated_at = NOW()\nWHERE chat_id = '{{ $json.message.chat.id.toString() }}';",
+        "options": {}
+      },
+      "id": "0d7fd15e-3211-49af-93a9-f811f392b715",
+      "name": "Update Max Loops",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        592,
+        288
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output.update_allowed }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "equals"
+                    },
+                    "id": "22237ee3-c786-4826-a50b-a80c8b7143de"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        1392
+      ],
+      "id": "fcaf2705-0e7b-416d-91f7-9141e245dace",
+      "name": "Update allowed",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cebb742a-0df3-47dc-9b4f-d09be569bb60",
+              "leftValue": "={{ $json.current_iteration }}",
+              "rightValue": "={{ $json.max_loops }}",
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3472,
+        1152
+      ],
+      "id": "a717d653-ed23-4582-98c3-4f1478cb5b39",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4cbbcf2f-5ec4-460b-a166-7a60004e32fe",
+              "name": "user_query",
+              "value": "={{ $('Administrator').first().json.output.user_query }}",
+              "type": "string"
+            },
+            {
+              "id": "368e3f0a-a001-48ea-9644-a30414258bd8",
+              "name": "life_context",
+              "value": "={{ $json.lifeHistory }}",
+              "type": "string"
+            },
+            {
+              "id": "5085a69d-fadf-4bd5-b79a-22330318dde8",
+              "name": "current_iteration",
+              "value": 0,
+              "type": "number"
+            },
+            {
+              "id": "260cfb72-a9a5-4f17-9da2-bd498585e4ef",
+              "name": "session_id",
+              "value": "={{ $json.session_id }}",
+              "type": "string"
+            },
+            {
+              "id": "0cf50a04-8f8a-4142-9354-1d60a06c452b",
+              "name": "max_loops",
+              "value": "={{ $json.max_loops }}",
+              "type": "number"
+            },
+            {
+              "id": "8b654065-c929-4705-a594-d5f34a5acc1c",
+              "name": "=conversation_history",
+              "value": "={{ $json.conversation_history }}",
+              "type": "string"
+            },
+            {
+              "id": "d8935de1-b77b-434e-905a-8c8c642a1092",
+              "name": "chat_id",
+              "value": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2096,
+        1152
+      ],
+      "id": "e12b8e74-b587-41c1-a2cd-a9dd13589ec2",
+      "name": "Prepare Payload"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT agent_name, iteration, content, fact_check_feedback, created_at\nFROM council_messages\nWHERE session_id = '{{ $('Prepare Payload').item.json.session_id }}'\nORDER BY iteration ASC, created_at ASC",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2832,
+        1152
+      ],
+      "id": "109f8952-56e6-4c42-b68e-30f715f57aa6",
+      "name": "Get council messages",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get all messages from the database SELECT query\nconst allMessages = $input.all().map(msg => msg.json);\n\n// Format conversation history and include Epistemologist feedback if available\nconst history = allMessages\n  .map(m => {\n    let msgBlock = `[${m.agent_name} - Iteration ${m.iteration}]: ${m.content}`;\n    \n    // Append fact-checker feedback if it exists for this message\n    if (m.fact_check_feedback) {\n      msgBlock += `\\n\\n[Epistemologist Fact-Check on ${m.agent_name}]:\\n${m.fact_check_feedback}`;\n    }\n    \n    return msgBlock;\n  })\n  .join('\\n\\n--------------------------------------------------\\n\\n');\n\n// Return updated payload that will flow to the next iteration\nreturn [{\n  json: {\n    user_query: $('Prepare Payload').first().json.user_query,\n    life_context: $('Prepare Payload').first().json.life_context,\n    session_id: $('Prepare Payload').first().json.session_id,\n    max_loops: $('Prepare Payload').first().json.max_loops,\n    current_iteration: $('Prepare Payload').first().json.current_iteration + 1,\n    conversation_history: history,\n    chat_id: $('Prepare Payload').first().json.chat_id\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3184,
+        1152
+      ],
+      "id": "3ac71429-9998-4adf-a120-78fb7ab0c578",
+      "name": "Update payload"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4cbbcf2f-5ec4-460b-a166-7a60004e32fe",
+              "name": "user_query",
+              "value": "={{ $json.user_query }}",
+              "type": "string"
+            },
+            {
+              "id": "368e3f0a-a001-48ea-9644-a30414258bd8",
+              "name": "life_context",
+              "value": "={{ $json.life_context }}",
+              "type": "string"
+            },
+            {
+              "id": "5085a69d-fadf-4bd5-b79a-22330318dde8",
+              "name": "current_iteration",
+              "value": "={{ $json.current_iteration }}",
+              "type": "number"
+            },
+            {
+              "id": "260cfb72-a9a5-4f17-9da2-bd498585e4ef",
+              "name": "session_id",
+              "value": "={{ $json.session_id }}",
+              "type": "string"
+            },
+            {
+              "id": "ea036b85-9813-4034-b5aa-f4ae27c8a06e",
+              "name": "max_loops",
+              "value": "={{ $json.max_loops }}",
+              "type": "number"
+            },
+            {
+              "id": "d32df728-7664-45e4-a8a8-ef58008610cc",
+              "name": "conversation_history",
+              "value": "={{ $json.conversation_history }}",
+              "type": "string"
+            },
+            {
+              "id": "63784f5f-dd1c-4496-a1e7-b4faf9693bf3",
+              "name": "chat_id",
+              "value": "={{ $json.chat_id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3824,
+        1136
+      ],
+      "id": "7e00f9f4-c437-41aa-9f31-df7b1bb63903",
+      "name": "Prepare Payload (Loop)"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get all messages from the database SELECT query\nconst allMessages = $input.all().map(msg => msg.json);\n\n// Format conversation history and include Epistemologist feedback if available\nconst history = allMessages\n  .map(m => {\n    let msgBlock = `[${m.agent_name} - Iteration ${m.iteration}]: ${m.content}`;\n    \n    // Append fact-checker feedback if it exists for this message\n    if (m.fact_check_feedback) {\n      msgBlock += `\\n\\n[Epistemologist Fact-Check on ${m.agent_name}]:\\n${m.fact_check_feedback}`;\n    }\n    \n    return msgBlock;\n  })\n  .join('\\n\\n--------------------------------------------------\\n\\n');\n\n// Return updated payload that will flow to the next iteration\nreturn [{\n  json: {\n    user_query: $('Prepare Payload (Loop)').first().json.user_query,\n    life_context: $('Prepare Payload (Loop)').first().json.life_context,\n    session_id: $('Prepare Payload (Loop)').first().json.session_id,\n    max_loops: $('Prepare Payload (Loop)').first().json.max_loops,\n    current_iteration: $('Prepare Payload (Loop)').first().json.current_iteration + 1,\n    conversation_history: history,\n    chat_id: $('Prepare Payload (Loop)').first().json.chat_id\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4816,
+        1440
+      ],
+      "id": "737f5a7f-c6fd-4690-8650-dd688701e9a5",
+      "name": "Update payload (Loop)"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT agent_name, iteration, content\nFROM council_messages\nWHERE session_id = '{{ $('Prepare Payload (Loop)').item.json.session_id }}'\nORDER BY iteration ASC, created_at ASC",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        4448,
+        1136
+      ],
+      "id": "a55bc7b2-31e8-4805-9e4e-f578ec1008b9",
+      "name": "Get council messages (Loop)",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"update_allowed\": {\n      \"type\": \"boolean\",\n      \"description\": \"Whether the user allows updating their personal records\"\n    },\n    \"user_query\": {\n      \"type\": \"string\",\n      \"description\": \"The original user query text passed through verbatim\"\n    }\n  },\n  \"required\": [\n    \"update_allowed\",\n    \"user_query\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        720,
+        1376
+      ],
+      "id": "ccbdae37-9cb2-411d-8e6a-559235698314",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "You are the Administrator Agent.\nYour job is to determine whether the user explicitly stated that their personal records should NOT be updated.\n\nAnalyze the user query and output a JSON object that:\n- Sets `update_allowed` to true by default.\n- Sets `update_allowed` to false ONLY if the user explicitly opts out (e.g., \"don't update\", \"skip update\", \"no changes\").\n- Is conservative: do NOT infer opt-out unless it is clearly stated.\n- Includes the original user query verbatim under the field `user_query`.\n\nOUTPUT INSTRUCTIONS:\n1. Output RAW JSON only. \n2. Do NOT use Markdown code blocks (no ```json).\n3. Do NOT add any text before or after the JSON."
+        }
+      },
+      "id": "54ecc965-6915-4d68-8201-fa6d794063ed",
+      "name": "Administrator",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        528,
+        1168
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 1: Split raw LLM output into Telegram-safe chunks\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nlet text = String($json.output || '');\nconst MAX_LEN = 3800; // buffer under Telegram's 4096 limit\n\n// Split at ### headings, \u2550\u2550\u2550 dividers, or paragraph breaks\nlet chunks = text.split(/(?=^### |\\n(?=\u2550{3,}\\n))/m);\n\n// Sub-split any chunk still over the limit at paragraph breaks\nconst refined = [];\nfor (const chunk of chunks) {\n  if (chunk.length <= MAX_LEN) {\n    refined.push(chunk);\n  } else {\n    const paragraphs = chunk.split(/(?=\\n\\n)/);\n    for (const p of paragraphs) {\n      refined.push(p);\n    }\n  }\n}\n\n// Bin-pack into parts, each under MAX_LEN\nconst parts = [];\nlet current = '';\n\nfor (const chunk of refined) {\n  if (current.length > 0 && current.length + chunk.length > MAX_LEN) {\n    parts.push(current.trim());\n    current = chunk;\n  } else {\n    current += chunk;\n  }\n}\nif (current.trim().length > 0) {\n  parts.push(current.trim());\n}\n\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 2: MarkdownV2 Escape Function\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nfunction escapeForMarkdownV2(text) {\n  if (!text) return '';\n\n  // --- Phase 1: Extract code blocks (literal in MarkdownV2) ---\n  const codeBlocks = [];\n\n  // Protect fenced code blocks: ```content```\n  text = text.replace(/```([\\s\\S]*?)```/g, (match) => {\n    codeBlocks.push(match);\n    return `\\x00CODEBLOCK${codeBlocks.length - 1}\\x00`;\n  });\n\n  // Protect inline code: `content`\n  text = text.replace(/`([^`]+)`/g, (match) => {\n    codeBlocks.push(match);\n    return `\\x00CODEBLOCK${codeBlocks.length - 1}\\x00`;\n  });\n\n  // --- Phase 2: Escape ALL special characters ---\n  text = text.replace(/([_*\\[\\]()~>#\\+\\-=|{}.!\\\\])/g, '\\\\$1');\n\n  // --- Phase 3: Un-escape intentional formatting markers ---\n\n  // Bold: \\*\\*text\\*\\* \u2192 *text*\n  text = text.replace(/\\\\\\*\\\\\\*(.*?)\\\\\\*\\\\\\*/g, '*$1*');\n\n  // Italic: \\_text\\_ \u2192 _text_\n  text = text.replace(/\\\\_(.*?)\\\\_/g, '_$1_');\n\n  // Blockquote: \\> at line start \u2192 >\n  text = text.replace(/^\\\\>/gm, '>');\n\n  // --- Phase 4: Restore code blocks (untouched) ---\n  for (let i = 0; i < codeBlocks.length; i++) {\n    text = text.replace(`\\x00CODEBLOCK${i}\\x00`, codeBlocks[i]);\n  }\n\n  return text;\n}\n\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 3: Escape each part, return one item per chunk\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nreturn parts\n  .map(p => escapeForMarkdownV2(p))\n  .filter(p => p.trim().length > 0)\n  .map((text, i) => ({ json: { text, partIndex: i + 1 } }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4320,
+        1792
+      ],
+      "id": "ea276649-3e34-42be-ac0e-dd1232e2bbad",
+      "name": "Sanitize Node7"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Command Router').first().json.message.chat.id }}",
+        "text": "={{\"We have received your query, and we are passing it on to the board of councillors now\\\\!\"}}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        992,
+        960
+      ],
+      "id": "bfdadde7-ed96-4b48-a58c-28e93c42aeec",
+      "name": "Send confirmation message",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Main_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Command Router').first().json.message.chat.id }}",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        4512,
+        1792
+      ],
+      "id": "58b8d75c-f5c7-4de6-a2a1-c169acd3878a",
+      "name": "Send synthesis of discussion",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Synthesizer_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Command Router').first().json.message.chat.id }}",
+        "text": "={{\"Sorry the synthesiser agent is not available right now\"}}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        4512,
+        1984
+      ],
+      "id": "9e5cc5f8-22a7-403a-b957-b59d0ded0f4c",
+      "name": "Send error message",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Main_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Command Router').first().json.message.chat.id }}",
+        "text": "={{\"Sorry, we cannot process your query at the moment,  maybe check your API credentials?\"}}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1072,
+        1232
+      ],
+      "id": "b968f82b-ab4a-45c8-bc02-55ce0cee498f",
+      "name": "Send error message1",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Main_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Command Router').first().json.message.chat.id }}",
+        "text": "={{\"A new session has been started successfully\"}}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1024,
+        496
+      ],
+      "id": "7f39fba8-204d-4657-b849-91a54007e444",
+      "name": "Send confirmation message1",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Main_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Command Router').first().json.message.chat.id }}",
+        "text": "={{\"The maximum number of iterations has been updated successfully\"}}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1024,
+        288
+      ],
+      "id": "64db95a6-bed0-4c96-b382-8025629eb696",
+      "name": "Send confirmation message2",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Main_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "council_messages",
+          "mode": "list",
+          "cachedResultName": "council_messages"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        592,
+        688
+      ],
+      "id": "7a2d0ae7-96d7-497e-bad2-0b3ab584bffc",
+      "name": "Clear conversation history",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Command Router').first().json.message.chat.id }}",
+        "text": "={{\"Conversation history has been cleared successfully\"}}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1024,
+        688
+      ],
+      "id": "d45414e7-dd58-49d7-80d5-ee55b49c5836",
+      "name": "Send confirmation message3",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Main_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "daysInterval": 3
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7412e515-b96b-4be5-a2de-46a12e21a5ce",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT 1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        304,
+        0
+      ],
+      "id": "d309b9a4-8008-462b-8f55-e1154683a5d5",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        528,
+        1328
+      ],
+      "id": "8f5170ff-a907-4048-bef6-e7d94d312874",
+      "name": "OpenRouter Chat Model4",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=User Query: {{ $json.user_query }}\n\n",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=You are the Academic Scout for a medical council. You have access to a curated, highly up-to-date vector database of recent scientific literature. The user is experiencing the following symptoms/query.\n\nQuery your database to find the single most relevant and recent scientific development regarding their query. Write a concise, exciting update directed to the patient, bringing them a fresh discovery from the Council's latest literature review.\n\nCRITICAL INSTRUCTION: You MUST explicitly state the exact title of the scientific paper you are referencing. Format the scientific paper's title clearly (e.g., **\"Exact Paper Title\"**) and include the authors and publication year if available in your source metadata. This is required so the patient can easily copy, paste, and search for the full study online."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        3968,
+        2432
+      ],
+      "id": "0f94d070-3665-4a80-bd72-b4998aa8b039",
+      "name": "Academic Scout",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 1: Split raw LLM output into Telegram-safe chunks\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nlet text = String($json.output || '');\nconst MAX_LEN = 3800; // buffer under Telegram's 4096 limit\n\n// Split at ### headings, \u2550\u2550\u2550 dividers, or paragraph breaks\nlet chunks = text.split(/(?=^### |\\n(?=\u2550{3,}\\n))/m);\n\n// Sub-split any chunk still over the limit at paragraph breaks\nconst refined = [];\nfor (const chunk of chunks) {\n  if (chunk.length <= MAX_LEN) {\n    refined.push(chunk);\n  } else {\n    const paragraphs = chunk.split(/(?=\\n\\n)/);\n    for (const p of paragraphs) {\n      refined.push(p);\n    }\n  }\n}\n\n// Bin-pack into parts, each under MAX_LEN\nconst parts = [];\nlet current = '';\n\nfor (const chunk of refined) {\n  if (current.length > 0 && current.length + chunk.length > MAX_LEN) {\n    parts.push(current.trim());\n    current = chunk;\n  } else {\n    current += chunk;\n  }\n}\nif (current.trim().length > 0) {\n  parts.push(current.trim());\n}\n\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 2: MarkdownV2 Escape Function\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nfunction escapeForMarkdownV2(text) {\n  if (!text) return '';\n\n  // --- Phase 1: Extract code blocks (literal in MarkdownV2) ---\n  const codeBlocks = [];\n\n  // Protect fenced code blocks: ```content```\n  text = text.replace(/```([\\s\\S]*?)```/g, (match) => {\n    codeBlocks.push(match);\n    return `\\x00CODEBLOCK${codeBlocks.length - 1}\\x00`;\n  });\n\n  // Protect inline code: `content`\n  text = text.replace(/`([^`]+)`/g, (match) => {\n    codeBlocks.push(match);\n    return `\\x00CODEBLOCK${codeBlocks.length - 1}\\x00`;\n  });\n\n  // --- Phase 2: Escape ALL special characters ---\n  text = text.replace(/([_*\\[\\]()~>#\\+\\-=|{}.!\\\\])/g, '\\\\$1');\n\n  // --- Phase 3: Un-escape intentional formatting markers ---\n\n  // Bold: \\*\\*text\\*\\* \u2192 *text*\n  text = text.replace(/\\\\\\*\\\\\\*(.*?)\\\\\\*\\\\\\*/g, '*$1*');\n\n  // Italic: \\_text\\_ \u2192 _text_\n  text = text.replace(/\\\\_(.*?)\\\\_/g, '_$1_');\n\n  // Blockquote: \\> at line start \u2192 >\n  text = text.replace(/^\\\\>/gm, '>');\n\n  // --- Phase 4: Restore code blocks (untouched) ---\n  for (let i = 0; i < codeBlocks.length; i++) {\n    text = text.replace(`\\x00CODEBLOCK${i}\\x00`, codeBlocks[i]);\n  }\n\n  return text;\n}\n\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 3: Escape each part, return one item per chunk\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nreturn parts\n  .map(p => escapeForMarkdownV2(p))\n  .filter(p => p.trim().length > 0)\n  .map((text, i) => ({ json: { text, partIndex: i + 1 } }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4368,
+        2384
+      ],
+      "id": "ab25eb1d-3947-46c1-801d-550cea75c722",
+      "name": "Sanitize Node"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-embedding-2"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        4672,
+        2880
+      ],
+      "id": "de9722bc-d558-4d67-80e8-06aea3d0e111",
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "",
+          "name": "Google_Gemini_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Command Router').first().json.message.chat.id }}",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        4560,
+        2384
+      ],
+      "id": "c1ba59e3-6ccb-4c95-b9c9-9fc2e158697f",
+      "name": "Send recommendation",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "AcademicScout_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "earch a curated database of the latest neuroscience, physiology, and psychology scientific literature. Use this to find recent academic papers relevant to patient symptoms or queries.",
+        "tableName": "scientific_literature",
+        "topK": 8,
+        "options": {
+          "columnNames": {
+            "values": {
+              "contentColumnName": "content"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.3,
+      "position": [
+        4160,
+        2672
+      ],
+      "id": "b76e430f-92b6-41e2-8b46-4e902a7a4d8a",
+      "name": "Postgres PGVector Store1",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=User Query: {{ $json.user_query }}\n\nComplete Expert Discussion:\n{{ $json.conversation_history }}",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "Role: You are the Final Synthesizer for a multidisciplinary health council\nconsisting of a Neuroscientist, Psychologist, Physiologist, and an Epistemologist Fact-Checker.\n\nTask: Transform the expert discussion and fact-checked claims into a clear, technically rich\nresponse to the patient's original question. The patient is scientifically\nliterate and values mechanistic depth, evidence-based rigor, expert disagreements, and\nactionable specificity.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nCONTENT STRUCTURE (Adaptive \u2014 not all sections required)\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nDirect Answer\nLead with the answer to the patient's actual question. No preamble, no\n\"the experts discussed...\" \u2014 start with the insight. If the question was\n\"Why do I feel X?\", the first sentence should be the mechanism. If it was\n\"Should I do X?\", the first sentence should be the recommendation.\n\nMechanistic & Evidence-Based Analysis\nSynthesize the cross-domain explanation. Trace cause-effect chains using\ninsights from all three experts, grounded in the literature verified by the Epistemologist.\nThe patient values understanding WHY and the scientific evidence behind it.\nUse the patient's own terminology alongside technical terms:\n\"The 'Revs' (amplified physiological tremor via sensory gating failure)...\"\n\nWhere the Experts Converged (and the Literature Supported)\nPoints where two or more experts independently reached the same conclusion AND\nthe Epistemologist validated the underlying science. State what they agreed on\nand why that agreement is meaningful clinically.\n\nWhere the Experts Differed or Claims Were Disputed\nInclude ONLY if genuine disagreement existed or if the Epistemologist successfully\ndisputed an expert's initial claim. When present, frame as:\n\"The Neuroscientist initially emphasized [X], but the literature search revealed [Y],\nforcing a shift toward [Z].\" OR \"The Psychologist and Physiologist hold competing\nmodels regarding [Mechanism]\u2014the evidence remains gray here because [Implication].\"\nOmit this section entirely if experts were aligned and fully validated.\n\nRecommendations\nInclude ONLY if the query warrants actionable advice.\nWhen included:\n\u2022 Be specific: dosages, timings, durations, measurable outcomes\n\u2022 Distinguish: \"Try this\" (low-risk) vs. \"Consider this\" (needs data)\nvs. \"Avoid this\" (evidence against)\n\u2022 Tie each recommendation to the mechanism: not just \"do X\" but\n\"do X because [mechanism]\"\nOmit for purely analytical queries.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nTONE & STYLE\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 Address the patient directly (\"your\", \"you\")\n\u2022 Scientifically precise but conversational\n\u2022 Use their vocabulary alongside technical terms\n\u2022 Do not hedge excessively \u2014 if evidence points somewhere, say so\n\u2022 Do not pad \u2014 if a section has nothing meaningful, omit it\n\u2022 Synthesize into a unified voice; only attribute to specific experts\nin convergence/divergence sections where the source matters\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nANTI-PATTERNS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2717 \"The experts discussed your condition and reached several insights...\"\n\u2717 \"Phase 1 / Phase 2\" arbitrary phasing\n\u2717 Restating each expert's view separately without synthesis\n\u2717 \"Consult a healthcare professional\" generic disclaimers\n\u2717 Padding with filler content to increase length"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        3920,
+        1856
+      ],
+      "id": "d5948d98-2095-460a-86db-17f6f6f28e90",
+      "name": "Conversation Synthesizer",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        576,
+        1456
+      ],
+      "id": "8995f339-5c6a-41b5-9696-5466a40a7dab",
+      "name": "OpenRouter Chat Model17",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultUrl": "",
+          "cachedResultName": "Consult the board"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "current_iteration": "={{ $json.current_iteration }}",
+            "max_loops": "={{ $json.max_loops }}",
+            "user_query": "={{ $json.user_query }}",
+            "life_context": "={{ $json.life_context }}",
+            "session_id": "={{ $json.session_id }}",
+            "conversation_history": "={{ $json.conversation_history }}",
+            "chat_id": "={{ $json.chat_id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user_query",
+              "displayName": "user_query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "life_context",
+              "displayName": "life_context",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "current_iteration",
+              "displayName": "current_iteration",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "max_loops",
+              "displayName": "max_loops",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "conversation_history",
+              "displayName": "conversation_history",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2432,
+        1152
+      ],
+      "id": "9f7ca89b-1d25-4aa2-92bc-a12c9fe1ae8c",
+      "name": "Consult the board"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultUrl": "",
+          "cachedResultName": "Consult the board"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "current_iteration": "={{ $json.current_iteration }}",
+            "max_loops": "={{ $json.max_loops }}",
+            "user_query": "={{ $json.user_query }}",
+            "life_context": "={{ $json.life_context }}",
+            "session_id": "={{ $json.session_id }}",
+            "conversation_history": "={{ $json.conversation_history }}",
+            "chat_id": "={{ ={{ $('Telegram Trigger').item.json.message.chat.id }} }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user_query",
+              "displayName": "user_query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "life_context",
+              "displayName": "life_context",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "current_iteration",
+              "displayName": "current_iteration",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "max_loops",
+              "displayName": "max_loops",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "conversation_history",
+              "displayName": "conversation_history",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4032,
+        1136
+      ],
+      "id": "74e2f9cb-d316-42d2-8399-46a49487e253",
+      "name": "Consult the board (Loop)"
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        3920,
+        2032
+      ],
+      "id": "4fb9814a-8b79-4486-b81b-46da8f3c147b",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        3968,
+        2160
+      ],
+      "id": "78a3a4d7-a1df-4697-8120-0b50267cd192",
+      "name": "OpenRouter Chat Model20",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        3968,
+        2656
+      ],
+      "id": "7e6070fc-a7ce-454f-b200-7ce707ed4d50",
+      "name": "OpenRouter Chat Model5",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        4016,
+        2784
+      ],
+      "id": "5b92a4c8-a204-4f52-a398-ca53f7ca25ac",
+      "name": "OpenRouter Chat Model18",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultUrl": "",
+          "cachedResultName": "Update personal records"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user_query": "={{ $json.output.user_query }}",
+            "chat_id": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+          },
+          "matchingColumns": [
+            "user_query"
+          ],
+          "schema": [
+            {
+              "id": "user_query",
+              "displayName": "user_query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1216,
+        1392
+      ],
+      "id": "5905553a-14d2-4161-b0b2-784b627ced3a",
+      "name": "Update personal records"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultUrl": "",
+          "cachedResultName": "Get personal records"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1616,
+        1152
+      ],
+      "id": "0a38e65b-260b-447c-ab1e-d1f2905b662c",
+      "name": "Get personal records"
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Command Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Command Router": {
+      "main": [
+        [
+          {
+            "node": "Update Max Loops",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate New Session ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Clear conversation history",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Administrator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate New Session ID": {
+      "main": [
+        [
+          {
+            "node": "Update Session Pointer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Session Pointer": {
+      "main": [
+        [
+          {
+            "node": "Send confirmation message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Max Loops": {
+      "main": [
+        [
+          {
+            "node": "Send confirmation message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update allowed": {
+      "main": [
+        [
+          {
+            "node": "Update personal records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Prepare Payload (Loop)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Conversation Synthesizer",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Academic Scout",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Payload": {
+      "main": [
+        [
+          {
+            "node": "Consult the board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get council messages": {
+      "main": [
+        [
+          {
+            "node": "Update payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update payload": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Payload (Loop)": {
+      "main": [
+        [
+          {
+            "node": "Consult the board (Loop)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update payload (Loop)": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get council messages (Loop)": {
+      "main": [
+        [
+          {
+            "node": "Update payload (Loop)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Administrator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Administrator": {
+      "main": [
+        [
+          {
+            "node": "Update allowed",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send confirmation message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get personal records",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send error message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sanitize Node7": {
+      "main": [
+        [
+          {
+            "node": "Send synthesis of discussion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clear conversation history": {
+      "main": [
+        [
+          {
+            "node": "Send confirmation message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Administrator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Academic Scout": {
+      "main": [
+        [
+          {
+            "node": "Sanitize Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sanitize Node": {
+      "main": [
+        [
+          {
+            "node": "Send recommendation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Postgres PGVector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres PGVector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Academic Scout",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Synthesizer": {
+      "main": [
+        [
+          {
+            "node": "Sanitize Node7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send error message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model17": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Administrator",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Consult the board": {
+      "main": [
+        [
+          {
+            "node": "Get council messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consult the board (Loop)": {
+      "main": [
+        [
+          {
+            "node": "Get council messages (Loop)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Conversation Synthesizer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model20": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Conversation Synthesizer",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Academic Scout",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model18": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Academic Scout",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get personal records": {
+      "main": [
+        [
+          {
+            "node": "Prepare Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": ""
+  }
+}

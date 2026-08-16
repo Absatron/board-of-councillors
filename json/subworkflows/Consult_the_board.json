@@ -1,0 +1,1409 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.user_query }}\n\nContext:\n{{ $json.life_context }}\n\nIteration: {{ $json.current_iteration }}\n\nPrevious Discussion:\n{{ $json.conversation_history || \"None yet\" }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "Role: You are an Expert Neuroscientist on a multidisciplinary health council.\n\nContext: You are one of three experts (Neuroscientist, Psychologist, Physiologist) analyzing a patient's health query. You have access to their complete life history spanning four clinical domains (Neurophysiology, Sleep, ENS/Gastro, Psychology) plus static protocols (Diet, Exercise, Skin, Social Profile).\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nYOUR LENS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nYou analyze through the HARDWARE layer: neural circuits, neurotransmitter systems, sensory processing, brain architecture, synaptic plasticity, and neurocomputational models.\n\nYour unique contributions:\n\u2022 Mechanistic explanations at the neural circuit level\n\u2022 Neurotransmitter dynamics (Adenosine, GABA, Glutamate, Serotonin, Norepinephrine, Dopamine, Acetylcholine, Histamine)\n\u2022 Sensory gating and attentional models\n\u2022 Sleep neurochemistry (Flip-Flop Switch, homeostatic drive, circadian oscillator)\n\u2022 Autonomic nervous system wiring (sympathetic/parasympathetic balance)\n\u2022 Neuroplasticity \u2014 how patterns reinforce or extinguish over time\n\u2022 HPA axis and stress neurobiology\n\u2022 Gut-brain axis neural pathways (vagal afferents)\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nANALYTICAL APPROACH\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n1. GROUND your analysis in the patient's documented history\n   \u2014 Reference specific entries and patterns from the life history\n   \u2014 Do not introduce speculative diagnoses without basis in the data\n\n2. EXPLAIN MECHANISMS, not just labels\n   \u2717 \"The patient has insomnia due to hyperarousal\"\n   \u2713 \"Chronic norepinephrine elevation is overriding adenosine-mediated sleep drive. The documented 'pre-sleep tension signal' at sleep onset reflects the flip-flop switch failing to commit \u2014 the VLPO (sleep) and LC (wake) nuclei are in unstable equilibrium rather than clean switching.\"\n\n3. IDENTIFY CROSS-SYSTEM CASCADES\n   \u2014 Connect dots across the life history domains\n   \u2014 Example: Diet trigger \u2192 metabolic event \u2192 neuroinflammation \u2192 sensory gating failure \u2192 sensory processing phenomena worsening\n\n4. ENGAGE RIGOROUSLY WITH PEER & EPISTEMOLOGIST FEEDBACK\n   \u2014 If this is iteration 1+, you will receive direct, critical feedback from the Epistemologist Fact-Checker alongside your peers' prior responses.\n   \u2014 You MUST actively engage with this feedback. If the Epistemologist disputes a claim, do not ignore it.\n   \u2014 Be intellectually honest: If the literature (or the Fact-Checker) contradicts your initial hypothesis, gracefully concede, adjust your model, and explore the nuances.\n   \u2014 If you disagree with the critique, justify your counter-argument with precise, newly searched literature.\n   \u2014 Identify where your neural-level explanation integrates with or reframes the Psychologist's or Physiologist's validated perspectives.\n\n5. PROPOSE TESTABLE HYPOTHESES when appropriate\n   \u2014 \"If the evening sugar bolus is driving the reactive hypoglycemia cascade, a 2-week elimination should reduce night sweat frequency \u2014 this would confirm the glucocorticoid rebound mechanism\"\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nCONSTRAINTS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 STAY IN YOUR LANE: Offer neural mechanisms, not psychological counseling or exercise programming\n\u2022 REFERENCE THE DATA: Ground claims in documented history, not generic textbook statements\n\u2022 BE SPECIFIC: Name the circuits, transmitters, and pathways involved\n\u2022 BE RIGOROUS & HONEST: Acknowledge when neurological mechanisms are highly debated, disputed, or poorly understood in current literature. Embrace neurochemical nuance over oversimplified narratives.\n\u2022 BE CONCISE: The patient receives a synthesized summary \u2014 your role is analytical depth, not length\n\u2022 ACKNOWLEDGE UNCERTAINTY: Distinguish between \"the evidence strongly suggests\" and \"this is an established clinical fact\"\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nLITERATURE SEARCH PROTOCOL\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nYou are expected to be highly rigorous and justify your responses with up-to-date scientific evidence.\n\n1. Autonomously decide if you need recent neurological literature to validate your hypothesis or respond to the Epistemologist's critique.\n2. If you need data, PAUSE and invoke your `search_medical_literature_neuro` tool.\n3. Frame your search query semantically, specific ONLY to your domain.\n4. DO NOT search for broad physiological or psychological concepts\u2014leave those to your colleagues.\n5. Integrate the findings into your analysis, citing the source conceptually and adjusting your claims if the literature contradicts your initial stance."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2240,
+        208
+      ],
+      "id": "db51804f-42cf-4823-82e8-1f32baeb1e2a",
+      "name": "Expert NeuroScientist",
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.user_query }}\n\nContext:\n{{ $json.life_context }}\n\nIteration: {{ $json.current_iteration }}\n\nPrevious Discussion:\n{{ $json.conversation_history || \"None yet\" }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "Role: You are an Expert Physiologist on a multidisciplinary health council.\n\nContext: You are one of three experts (Neuroscientist, Psychologist, Physiologist) analyzing a patient's health query. You have access to their complete life history spanning four clinical domains (Neurophysiology, Sleep, ENS/Gastro, Psychology) plus static protocols (Diet, Exercise, Skin, Social Profile).\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nYOUR LENS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nYou analyze through the BODY layer: organ systems, metabolic pathways, endocrine function, cardiovascular dynamics, immune responses, and the physical substrate on which the nervous system and mind operate.\n\nYour unique contributions:\n\u2022 Metabolic and endocrine analysis (insulin dynamics, cortisol rhythm, thyroid, adrenaline cascades)\n\u2022 Cardiovascular physiology (HR dynamics, cardiac output, vascular tone, aerobic capacity metric implications)\n\u2022 Immune and inflammatory pathways (cytokines, histamine, mast cell dynamics, neuroinflammation)\n\u2022 Exercise physiology (training adaptation, recovery, overtraining, autonomic conditioning)\n\u2022 Thermoregulation physiology (metabolic heat production, vasodilation/constriction, sweating)\n\u2022 Nutritional biochemistry (macronutrient metabolism, glycemic response, alcohol metabolism)\n\u2022 Gut physiology (motility, ENS function, intestinal permeability, microbiome effects)\n\u2022 Sleep physiology (restorative functions, growth hormone, metabolic recovery during sleep)\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nANALYTICAL APPROACH\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n1. GROUND your analysis in documented history and protocols\n   \u2014 Reference the patient's Diet and Exercise Protocols for context\n   \u2014 Use documented metabolic reactions, cardiac data, and immune events from the clinical record\n\n2. TRACE PHYSIOLOGICAL CASCADES with precision\n   \u2717 \"Eating too much sugar causes problems\"\n   \u2713 \"The documented large carbohydrate load triggers rapid insulin secretion \u2192 blood glucose crash below fasting baseline within 90 min \u2192 counter-regulatory response (glucagon, cortisol, adrenaline) \u2192 sympathetic activation \u2192 nocturnal diaphoresis. The Exercise Protocol shows high aerobic capacity metric, ruling out deconditioning as the cardiac cause \u2014 this is a regulatory issue, not a capacity issue.\"\n\n3. CONNECT BODY SYSTEMS\n   \u2014 Show how metabolic events cascade into autonomic, immune, and sleep disruption\n   \u2014 Use the static protocols as baseline context: \"Given his training load of X and caloric intake of Y...\"\n\n4. ENGAGE RIGOROUSLY WITH PEER & EPISTEMOLOGIST FEEDBACK\n   \u2014 If this is iteration 1+, you will receive direct, critical feedback from the Epistemologist Fact-Checker alongside your peers' prior responses.\n   \u2014 You MUST actively engage with this feedback. If the Epistemologist disputes a claim, do not ignore it.\n   \u2014 Be intellectually honest: If the literature contradicts your initial hypothesis, gracefully concede, adjust your model, and explore the nuances.\n   \u2014 If you disagree with the critique, justify your counter-argument with precise, newly searched literature.\n   \u2014 Provide the physiological substrate for the Neuroscientist's neural mechanisms where validated.\n\n5. LEVERAGE PROTOCOL CONTEXT\n   \u2014 You have access to static Diet, Exercise, and Skin protocols\n   \u2014 Use these as known variables when analyzing symptoms\n   \u2014 \"His current training split emphasizes high-intensity resistance 5x/week. This volume sustains elevated sympathetic tone which may counteract the vagal conditioning benefits of his low-intensity aerobic work.\"\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nCONSTRAINTS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 STAY IN YOUR LANE: Offer physiological analysis, not psychological counseling or neural circuit theory\n\u2022 REFERENCE THE DATA: Ground claims in documented history and protocols\n\u2022 QUANTIFY: Use numbers, ranges, and physiological thresholds where the data supports it\n\u2022 BE MECHANISTIC: Trace cause-effect chains through specific biochemical/physiological pathways\n\u2022 BE RIGOROUS & HONEST: Acknowledge when mechanisms are highly debated or poorly understood in current literature. Embrace biological nuance over oversimplified narratives.\n\u2022 BE PRACTICAL: When appropriate, suggest physiological interventions (timing, dosing, environmental)\n\u2022 BE CONCISE: Depth over length\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nLITERATURE SEARCH PROTOCOL\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nYou are expected to be highly rigorous and justify your responses with up-to-date scientific evidence.\n\n1. Autonomously decide if you need recent literature on metabolic pathways, endocrine function, immune cascades, or cardiovascular dynamics to validate your hypothesis or respond to the Epistemologist's critique.\n2. If you need data, PAUSE and invoke your `search_medical_literature_physio` tool.\n3. Frame your search query semantically, specific ONLY to your domain.\n4. DO NOT search for cognitive models or central neural circuit architecture\u2014leave those to your colleagues.\n5. Integrate the findings into your analysis, citing the source conceptually and adjusting your claims if the literature contradicts your initial stance."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2224,
+        1024
+      ],
+      "id": "17b94e15-2db8-4b42-8202-1fe051c2b815",
+      "name": "Expert Physiologist",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "council_messages",
+          "mode": "list",
+          "cachedResultName": "council_messages"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "iteration": "={{ $('Payload').item.json.current_iteration }}",
+            "session_id": "={{ $('Payload').item.json.session_id }}",
+            "agent_name": "neuro",
+            "content": "={{ $json.output }}",
+            "created_at": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "iteration",
+              "displayName": "iteration",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "agent_name",
+              "displayName": "agent_name",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1520,
+        96
+      ],
+      "id": "8b69de59-fa89-420b-8152-e41bfbe7d206",
+      "name": "Insert neuro response",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "council_messages",
+          "mode": "list",
+          "cachedResultName": "council_messages"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "iteration": "={{ $('Payload').item.json.current_iteration }}",
+            "session_id": "={{ $('Payload').item.json.session_id }}",
+            "agent_name": "psych",
+            "content": "={{ $json.output }}",
+            "created_at": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "iteration",
+              "displayName": "iteration",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "agent_name",
+              "displayName": "agent_name",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1856,
+        592
+      ],
+      "id": "c87a570e-384c-421c-8778-beeaa2334278",
+      "name": "Insert psych response",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "council_messages",
+          "mode": "list",
+          "cachedResultName": "council_messages"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "iteration": "={{ $('Payload').item.json.current_iteration }}",
+            "session_id": "={{ $('Payload').item.json.session_id }}",
+            "agent_name": "physio",
+            "content": "={{ $json.output }}",
+            "created_at": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "iteration",
+              "displayName": "iteration",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "agent_name",
+              "displayName": "agent_name",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1856,
+        1008
+      ],
+      "id": "96cd6123-feab-4d64-8c6b-e02eddcc2b55",
+      "name": "Insert physio response",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1168,
+        576
+      ],
+      "id": "6ed3238e-7cb3-4b04-a13b-e1960f7eba33",
+      "name": "Wait for Council Response"
+    },
+    {
+      "parameters": {
+        "jsCode": "// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 1: Split raw LLM output into Telegram-safe chunks\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nlet text = String($json.output || '');\nconst MAX_LEN = 3800; // buffer under Telegram's 4096 limit\n\n// Split at ### headings, \u2550\u2550\u2550 dividers, or paragraph breaks\nlet chunks = text.split(/(?=^### |\\n(?=\u2550{3,}\\n))/m);\n\n// Sub-split any chunk still over the limit at paragraph breaks\nconst refined = [];\nfor (const chunk of chunks) {\n  if (chunk.length <= MAX_LEN) {\n    refined.push(chunk);\n  } else {\n    const paragraphs = chunk.split(/(?=\\n\\n)/);\n    for (const p of paragraphs) {\n      refined.push(p);\n    }\n  }\n}\n\n// Bin-pack into parts, each under MAX_LEN\nconst parts = [];\nlet current = '';\n\nfor (const chunk of refined) {\n  if (current.length > 0 && current.length + chunk.length > MAX_LEN) {\n    parts.push(current.trim());\n    current = chunk;\n  } else {\n    current += chunk;\n  }\n}\nif (current.trim().length > 0) {\n  parts.push(current.trim());\n}\n\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 2: MarkdownV2 Escape Function\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nfunction escapeForMarkdownV2(text) {\n  if (!text) return '';\n\n  // --- Phase 1: Extract code blocks (literal in MarkdownV2) ---\n  const codeBlocks = [];\n\n  // Protect fenced code blocks: ```content```\n  text = text.replace(/```([\\s\\S]*?)```/g, (match) => {\n    codeBlocks.push(match);\n    return `\\x00CODEBLOCK${codeBlocks.length - 1}\\x00`;\n  });\n\n  // Protect inline code: `content`\n  text = text.replace(/`([^`]+)`/g, (match) => {\n    codeBlocks.push(match);\n    return `\\x00CODEBLOCK${codeBlocks.length - 1}\\x00`;\n  });\n\n  // --- Phase 2: Escape ALL special characters ---\n  text = text.replace(/([_*\\[\\]()~>#\\+\\-=|{}.!\\\\])/g, '\\\\$1');\n\n  // --- Phase 3: Un-escape intentional formatting markers ---\n\n  // Bold: \\*\\*text\\*\\* \u2192 *text*\n  text = text.replace(/\\\\\\*\\\\\\*(.*?)\\\\\\*\\\\\\*/g, '*$1*');\n\n  // Italic: \\_text\\_ \u2192 _text_\n  text = text.replace(/\\\\_(.*?)\\\\_/g, '_$1_');\n\n  // Blockquote: \\> at line start \u2192 >\n  text = text.replace(/^\\\\>/gm, '>');\n\n  // --- Phase 4: Restore code blocks (untouched) ---\n  for (let i = 0; i < codeBlocks.length; i++) {\n    text = text.replace(`\\x00CODEBLOCK${i}\\x00`, codeBlocks[i]);\n  }\n\n  return text;\n}\n\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 3: Escape each part, return one item per chunk\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nreturn parts\n  .map(p => escapeForMarkdownV2(p))\n  .filter(p => p.trim().length > 0)\n  .map((text, i) => ({ json: { text, partIndex: i + 1 } }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1952,
+        32
+      ],
+      "id": "a67243ac-e6a4-4800-9aa3-e34a90bb1c81",
+      "name": "Sanitize Node1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Payload').item.json.chat_id }}",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1760,
+        32
+      ],
+      "id": "4f8af6d5-415c-429f-9da3-c6732a03ec35",
+      "name": "Send a text message7",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Neuroscientist_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 1: Split raw LLM output into Telegram-safe chunks\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nlet text = String($json.output || '');\nconst MAX_LEN = 3800; // buffer under Telegram's 4096 limit\n\n// Split at ### headings, \u2550\u2550\u2550 dividers, or paragraph breaks\nlet chunks = text.split(/(?=^### |\\n(?=\u2550{3,}\\n))/m);\n\n// Sub-split any chunk still over the limit at paragraph breaks\nconst refined = [];\nfor (const chunk of chunks) {\n  if (chunk.length <= MAX_LEN) {\n    refined.push(chunk);\n  } else {\n    const paragraphs = chunk.split(/(?=\\n\\n)/);\n    for (const p of paragraphs) {\n      refined.push(p);\n    }\n  }\n}\n\n// Bin-pack into parts, each under MAX_LEN\nconst parts = [];\nlet current = '';\n\nfor (const chunk of refined) {\n  if (current.length > 0 && current.length + chunk.length > MAX_LEN) {\n    parts.push(current.trim());\n    current = chunk;\n  } else {\n    current += chunk;\n  }\n}\nif (current.trim().length > 0) {\n  parts.push(current.trim());\n}\n\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 2: MarkdownV2 Escape Function\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nfunction escapeForMarkdownV2(text) {\n  if (!text) return '';\n\n  // --- Phase 1: Extract code blocks (literal in MarkdownV2) ---\n  const codeBlocks = [];\n\n  // Protect fenced code blocks: ```content```\n  text = text.replace(/```([\\s\\S]*?)```/g, (match) => {\n    codeBlocks.push(match);\n    return `\\x00CODEBLOCK${codeBlocks.length - 1}\\x00`;\n  });\n\n  // Protect inline code: `content`\n  text = text.replace(/`([^`]+)`/g, (match) => {\n    codeBlocks.push(match);\n    return `\\x00CODEBLOCK${codeBlocks.length - 1}\\x00`;\n  });\n\n  // --- Phase 2: Escape ALL special characters ---\n  text = text.replace(/([_*\\[\\]()~>#\\+\\-=|{}.!\\\\])/g, '\\\\$1');\n\n  // --- Phase 3: Un-escape intentional formatting markers ---\n\n  // Bold: \\*\\*text\\*\\* \u2192 *text*\n  text = text.replace(/\\\\\\*\\\\\\*(.*?)\\\\\\*\\\\\\*/g, '*$1*');\n\n  // Italic: \\_text\\_ \u2192 _text_\n  text = text.replace(/\\\\_(.*?)\\\\_/g, '_$1_');\n\n  // Blockquote: \\> at line start \u2192 >\n  text = text.replace(/^\\\\>/gm, '>');\n\n  // --- Phase 4: Restore code blocks (untouched) ---\n  for (let i = 0; i < codeBlocks.length; i++) {\n    text = text.replace(`\\x00CODEBLOCK${i}\\x00`, codeBlocks[i]);\n  }\n\n  return text;\n}\n\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 3: Escape each part, return one item per chunk\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nreturn parts\n  .map(p => escapeForMarkdownV2(p))\n  .filter(p => p.trim().length > 0)\n  .map((text, i) => ({ json: { text, partIndex: i + 1 } }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1856,
+        416
+      ],
+      "id": "92881851-0ca3-47f3-8b59-980e62f3bb14",
+      "name": "Sanitize Node2"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Payload').item.json.chat_id }}",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1664,
+        416
+      ],
+      "id": "72d275b6-9f43-4492-a5ff-b8d673cce688",
+      "name": "Send a text message12",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Psychologist_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 1: Split raw LLM output into Telegram-safe chunks\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nlet text = String($json.output || '');\nconst MAX_LEN = 3800; // buffer under Telegram's 4096 limit\n\n// Split at ### headings, \u2550\u2550\u2550 dividers, or paragraph breaks\nlet chunks = text.split(/(?=^### |\\n(?=\u2550{3,}\\n))/m);\n\n// Sub-split any chunk still over the limit at paragraph breaks\nconst refined = [];\nfor (const chunk of chunks) {\n  if (chunk.length <= MAX_LEN) {\n    refined.push(chunk);\n  } else {\n    const paragraphs = chunk.split(/(?=\\n\\n)/);\n    for (const p of paragraphs) {\n      refined.push(p);\n    }\n  }\n}\n\n// Bin-pack into parts, each under MAX_LEN\nconst parts = [];\nlet current = '';\n\nfor (const chunk of refined) {\n  if (current.length > 0 && current.length + chunk.length > MAX_LEN) {\n    parts.push(current.trim());\n    current = chunk;\n  } else {\n    current += chunk;\n  }\n}\nif (current.trim().length > 0) {\n  parts.push(current.trim());\n}\n\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 2: MarkdownV2 Escape Function\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nfunction escapeForMarkdownV2(text) {\n  if (!text) return '';\n\n  // --- Phase 1: Extract code blocks (literal in MarkdownV2) ---\n  const codeBlocks = [];\n\n  // Protect fenced code blocks: ```content```\n  text = text.replace(/```([\\s\\S]*?)```/g, (match) => {\n    codeBlocks.push(match);\n    return `\\x00CODEBLOCK${codeBlocks.length - 1}\\x00`;\n  });\n\n  // Protect inline code: `content`\n  text = text.replace(/`([^`]+)`/g, (match) => {\n    codeBlocks.push(match);\n    return `\\x00CODEBLOCK${codeBlocks.length - 1}\\x00`;\n  });\n\n  // --- Phase 2: Escape ALL special characters ---\n  text = text.replace(/([_*\\[\\]()~>#\\+\\-=|{}.!\\\\])/g, '\\\\$1');\n\n  // --- Phase 3: Un-escape intentional formatting markers ---\n\n  // Bold: \\*\\*text\\*\\* \u2192 *text*\n  text = text.replace(/\\\\\\*\\\\\\*(.*?)\\\\\\*\\\\\\*/g, '*$1*');\n\n  // Italic: \\_text\\_ \u2192 _text_\n  text = text.replace(/\\\\_(.*?)\\\\_/g, '_$1_');\n\n  // Blockquote: \\> at line start \u2192 >\n  text = text.replace(/^\\\\>/gm, '>');\n\n  // --- Phase 4: Restore code blocks (untouched) ---\n  for (let i = 0; i < codeBlocks.length; i++) {\n    text = text.replace(`\\x00CODEBLOCK${i}\\x00`, codeBlocks[i]);\n  }\n\n  return text;\n}\n\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n// STEP 3: Escape each part, return one item per chunk\n// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nreturn parts\n  .map(p => escapeForMarkdownV2(p))\n  .filter(p => p.trim().length > 0)\n  .map((text, i) => ({ json: { text, partIndex: i + 1 } }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1856,
+        832
+      ],
+      "id": "3af912e3-0cb0-411e-9b9c-19f33be4ef3c",
+      "name": "Sanitize Node3"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Payload').item.json.chat_id }}",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1664,
+        832
+      ],
+      "id": "0e444be1-2313-4588-8746-e934b6100152",
+      "name": "Send a text message13",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Physiologist_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.user_query }}\n\nContext:\n{{ $json.life_context }}\n\nIteration: {{ $json.current_iteration }}\n\nPrevious Discussion:\n{{ $json.conversation_history || \"None yet\" }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "Role: You are an Expert Psychologist on a multidisciplinary health council.\n\nContext: You are one of three experts (Neuroscientist, Psychologist, Physiologist) analyzing a patient's health query. You have access to their complete life history spanning four clinical domains (Neurophysiology, Sleep, ENS/Gastro, Psychology) plus static protocols (Diet, Exercise, Skin, Social Profile).\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nYOUR LENS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nYou analyze through the SOFTWARE layer: cognition, emotion, behavior, meaning-making, coping architecture, and the subjective experience of living in this body.\n\nYour unique contributions:\n\u2022 Cognitive-behavioral analysis (thought patterns \u2192 emotional response \u2192 behavioral output)\n\u2022 Coping mechanism evaluation (adaptive vs. maladaptive, short-term vs. long-term)\n\u2022 Stress appraisal models (how the patient INTERPRETS their symptoms shapes their impact)\n\u2022 Behavioral reinforcement \u2014 identifying feedback loops that maintain or worsen patterns\n\u2022 Psychological resilience factors \u2014 what's working, not just what's broken\n\u2022 Mind-body bidirectional pathways (how beliefs and attention modulate physical symptoms)\n\u2022 Acceptance and Commitment Therapy (ACT) lens \u2014 psychological flexibility, values-aligned behavior\n\u2022 Social-relational context \u2014 how relationships buffer or amplify psychological strain\n\u2022 Metacognition \u2014 the patient's awareness of their own cognitive patterns\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nANALYTICAL APPROACH\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n1. GROUND your analysis in documented psychological history\n   \u2014 Reference specific coping shifts, belief changes, behavioral patterns from the record\n   \u2014 Track the TRAJECTORY of the patient's psychological relationship to their condition\n\n2. ANALYZE THE RELATIONSHIP, NOT JUST THE SYMPTOM\n   \u2717 \"The patient is anxious about sleep\"\n   \u2713 \"The patient's anticipatory sleep anxiety creates a self-fulfilling prophecy: monitoring for sleep onset (executive activation) directly antagonizes the sleep drive. The documented shift from 'checking' hallucinations to 'peripheral awareness' in [[YYYY-MM-DD]] suggests capacity for attentional retraining.\"\n\n3. IDENTIFY BEHAVIORAL LOOPS\n   \u2014 Rigid stimulus control \u2192 executive activation \u2192 arousal \u2192 failed sleep \u2192 increased rigidity\n   \u2014 Symptom checking \u2192 attentional gain \u2192 symptom amplification \u2192 increased checking\n\n4. ENGAGE RIGOROUSLY WITH PEER & EPISTEMOLOGIST FEEDBACK\n   \u2014 If this is iteration 1+, you will receive direct, critical feedback from the Epistemologist Fact-Checker alongside your peers' prior responses.\n   \u2014 You MUST actively engage with this feedback. If the Epistemologist disputes a claim about behavioral models, do not ignore it.\n   \u2014 Be intellectually honest: If the literature contradicts your initial psychological hypothesis, gracefully concede, adjust your model, and explore the nuances.\n   \u2014 If you disagree with the critique, justify your counter-argument with precise, newly searched literature.\n   \u2014 Translate validated neural mechanisms (Neuroscientist) into grounded psychological interventions.\n\n5. HONOR PATIENT RESILIENCE\n   \u2014 This patient shows remarkable emotional decoupling from severe symptoms\n   \u2014 Analyze this as a STRENGTH with nuance, not dismissively or as denial\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nCONSTRAINTS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 STAY IN YOUR LANE: Offer psychological analysis, not pharmacological recommendations or neural circuit details\n\u2022 REFERENCE THE DATA: Ground claims in documented psychological history\n\u2022 AVOID PATHOLOGIZING: Frame observations through function, not diagnostic labels\n\u2022 BE RIGOROUS & HONEST: Acknowledge when psychological models are debated or fail to capture the full somatic reality. Embrace nuance over oversimplified behavioral narratives.\n\u2022 BE PRACTICAL: Where possible, suggest actionable psychological strategies\n\u2022 ACKNOWLEDGE the bidirectional nature: mind affects body AND body affects mind\n\u2022 BE CONCISE: Analytical depth over word count\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nLITERATURE SEARCH PROTOCOL\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nYou are expected to be highly rigorous and justify your responses with up-to-date scientific evidence.\n\n1. Autonomously decide if you need recent literature on cognitive-behavioral models, coping mechanisms, or psycho-physiological stress appraisal to validate your hypothesis or respond to the Epistemologist's critique.\n2. If you need data, PAUSE and invoke your `search_medical_literature_psych` tool.\n3. Frame your search query semantically, specific ONLY to your domain.\n4. DO NOT search for raw neurotransmitter data or metabolic cascades\u2014leave those to your colleagues.\n5. Integrate the findings into your analysis, citing the source conceptually and adjusting your claims if the literature contradicts your initial stance."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2224,
+        608
+      ],
+      "id": "cc5f74c3-87bd-4832-9e4b-2e90cff5c435",
+      "name": "Expert Psychologist",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Objective: {{ $json.user_query }}\n\n{{ $json.expert_claims_text }}",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "Role: You are the Epistemologist Fact-Checker for a medical council.\n\nContext: You have been given the latest analyses from the Neuroscientist, Psychologist, and Physiologist. Your job is to extract their core factual claims, search the latest scientific literature to verify them, and provide direct, rigorous feedback.\n\nInstructions:\n1. Extract the core factual claims from each expert's response.\n2. To verify a claim, first use `Search_Literature_Abstracts` to find relevant studies. If the abstract provides sufficient conclusive evidence, you may stop there. However, if the claim involves complex biological mechanisms, specific neurotransmitter pathways, or if the abstract is ambiguous, you MUST use the `Read_Full_Paper` tool.\n3. Do not be polite; be scientifically accurate.\n4. You MUST output a valid JSON payload mapping each agent's name to your critique of their claims.\nFormat exactly like this strictly valid JSON:\n{\n  \"Neuroscientist\": \"Critique...\",\n  \"Psychologist\": \"Critique...\",\n  \"Physiologist\": \"Critique...\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -512,
+        16
+      ],
+      "id": "af8dd3c3-efb8-44bd-b4f4-2e517f4f2608",
+      "name": "Epistemologist",
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"Neuroscientist\": {\n      \"type\": \"string\",\n      \"description\": \"Critique and fact-check for the Neuroscientist's claims.\"\n    },\n    \"Psychologist\": {\n      \"type\": \"string\",\n      \"description\": \"Critique and fact-check for the Psychologist's claims.\"\n    },\n    \"Physiologist\": {\n      \"type\": \"string\",\n      \"description\": \"Critique and fact-check for the Physiologist's claims.\"\n    }\n  },\n  \"required\": [\n    \"Neuroscientist\",\n    \"Psychologist\",\n    \"Physiologist\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -208,
+        272
+      ],
+      "id": "b045f4ca-ba6a-4deb-b025-1319774c514c",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get all rows returned by the Postgres node\nconst currentMessages = $input.all().map(item => item.json);\n\n// Normalize names for the Epistemologist JSON schema\nconst getFullName = (shortName) => {\n  if (shortName === 'neuro') return 'NEUROSCIENTIST';\n  if (shortName === 'psych') return 'PSYCHOLOGIST';\n  if (shortName === 'physio') return 'PHYSIOLOGIST';\n  return shortName.toUpperCase();\n};\n\n// Format the claims into a structured text block for the prompt\nlet formattedClaims = \"### CURRENT EXPERT CLAIMS FOR REVIEW ###\\n\\n\";\n\ncurrentMessages.forEach(msg => {\n  formattedClaims += `--- ${getFullName(msg.agent_name)} ---\\n${msg.content}\\n\\n`;\n});\n\n// Create the final payload to pass directly to the Agent\nreturn [{\n  json: {\n    session_id: $('Payload').first().json.session_id,\n    current_iteration:$('Payload').first().json.current_iteration ,\n    user_query: $('Payload').first().json.user_query,\n    expert_claims_text: formattedClaims\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        16
+      ],
+      "id": "b29bff31-f864-4de9-9d70-776e5c53d284",
+      "name": "Extract Claims"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE council_messages \nSET fact_check_feedback = $${{ $json.output.Neuroscientist }}$$ \nWHERE session_id = '{{ $('Payload').item.json.session_id }}' \n  AND iteration = {{ $('Payload').item.json.current_iteration }} \n  AND agent_name = 'neuro';\n\nUPDATE council_messages \nSET fact_check_feedback = $${{ $json.output.Psychologist }}$$ \nWHERE session_id = '{{ $('Payload').item.json.session_id }}' \n  AND iteration = {{ $('Payload').item.json.current_iteration }} \n  AND agent_name = 'psych';\n\nUPDATE council_messages \nSET fact_check_feedback = $${{ $json.output.Physiologist }}$$ \nWHERE session_id = '{{ $('Payload').item.json.session_id }}' \n  AND iteration = {{ $('Payload').item.json.current_iteration }} \n  AND agent_name = 'physio';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8112d599-04ca-4baf-a15e-40f771d38df4",
+      "name": "Insert fact check feedback",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT agent_name, content, created_at\nFROM council_messages\nWHERE session_id = '{{ $('Payload').item.json.session_id }}'\n  AND iteration = {{ $('Payload').item.json.current_iteration }}\nORDER BY created_at ASC",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -928,
+        16
+      ],
+      "id": "9f6605bc-31db-4fdf-8213-a5a0fa2482a5",
+      "name": "Get council messages from current iteration",
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Use this tool to fetch the FULL TEXT of a specific paper or topic when the abstract is insufficient to verify complex physiological or neurochemical mechanisms. Provide a PaperId.",
+        "workflowId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultUrl": "",
+          "cachedResultName": "Semantic Scholar search"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action_type": "full_paper",
+            "searchParam": "={{$fromAI('paperId')}}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "searchParam",
+              "displayName": "searchParam",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "action_type",
+              "displayName": "action_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -320,
+        384
+      ],
+      "id": "4692456f-90b8-4f7e-a480-1dad4fbe0044",
+      "name": "Semantic Scholar search full paper"
+    },
+    {
+      "parameters": {
+        "description": "Use this tool FIRST to search the scientific literature for broad abstracts and summaries. Provide a specific search query. Use this to quickly verify basic claims. Provide a query.",
+        "workflowId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultUrl": "",
+          "cachedResultName": "Semantic Scholar search"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "searchParam": "={{$fromAI('query')}}",
+            "action_type": "abstract"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "searchParam",
+              "displayName": "searchParam",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "action_type",
+              "displayName": "action_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -368,
+        208
+      ],
+      "id": "c386e9c4-d257-40f3-9618-e00bafb0494a",
+      "name": "Semantic Scholar search abstract"
+    },
+    {
+      "parameters": {
+        "description": "Use this tool to search the internet for recent academic nervous system and neurological peer-reviewed literature. It is semantic, so search using full descriptive sentences or medical hypothesis.",
+        "workflowId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultUrl": "",
+          "cachedResultName": "Exa search"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{$fromAI('query')}}",
+            "specialty": "neuro"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "specialty",
+              "displayName": "specialty",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2080,
+        368
+      ],
+      "id": "481d7085-38f2-40d7-bc18-0924c9febfe0",
+      "name": "Neuro Literature Search"
+    },
+    {
+      "parameters": {
+        "description": "Use this tool to search the internet for recent academic physiological, metabolic, and endocrinology peer-reviewed literature. It is semantic, so search using full descriptive sentences or medical hypothesis.",
+        "workflowId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultUrl": "",
+          "cachedResultName": "Exa search"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{$fromAI('query')}}",
+            "specialty": "physio"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "specialty",
+              "displayName": "specialty",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2064,
+        1184
+      ],
+      "id": "564a4652-3ac0-4caa-8dc4-0af3d0d12c26",
+      "name": "Physio Literature Search"
+    },
+    {
+      "parameters": {
+        "description": "Use this tool to search the internet for recent academic cognitive behavioral and psychological peer-reviewed literature. It is semantic, so search using full descriptive sentences or medical hypothesis.",
+        "workflowId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultUrl": "",
+          "cachedResultName": "Exa search"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{$fromAI('query')}}",
+            "specialty": "psych"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "specialty",
+              "displayName": "specialty",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2064,
+        768
+      ],
+      "id": "defbf846-d806-4de3-87a2-b747d1ced7a9",
+      "name": "Psych Literature Search"
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -2192,
+        464
+      ],
+      "id": "82ebcc2d-577e-4771-ba58-a45630ddbff1",
+      "name": "OpenRouter Chat Model7",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "user_query"
+            },
+            {
+              "name": "life_context"
+            },
+            {
+              "name": "current_iteration",
+              "type": "number"
+            },
+            {
+              "name": "session_id"
+            },
+            {
+              "name": "max_loops",
+              "type": "number"
+            },
+            {
+              "name": "conversation_history"
+            },
+            {
+              "name": "chat_id",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2784,
+        608
+      ],
+      "id": "44e47c69-641f-4e4a-b2c2-c91726d633e3",
+      "name": "Payload"
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -2256,
+        352
+      ],
+      "id": "cbb75fc9-51a8-49bc-b232-84be85369abb",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -2176,
+        896
+      ],
+      "id": "2412de0b-225f-46bb-b694-8919c6ba742f",
+      "name": "OpenRouter Chat Model8",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -2224,
+        768
+      ],
+      "id": "62f149cb-6dad-4b59-b055-7a61dd18c0d6",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -2160,
+        1296
+      ],
+      "id": "cef6431a-0522-4599-9679-c58e43572297",
+      "name": "OpenRouter Chat Model12",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -2224,
+        1184
+      ],
+      "id": "6c8e3ead-567f-41da-872f-b4a1ada8327a",
+      "name": "OpenRouter Chat Model3",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        400
+      ],
+      "id": "d4c2ae5f-ab5b-4999-b9ad-5fa77ca8ac59",
+      "name": "OpenRouter Chat Model9",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        288
+      ],
+      "id": "9f616c4b-aba0-4a52-9ec3-a1935dfb91b0",
+      "name": "OpenRouter Chat Model4",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Expert NeuroScientist": {
+      "main": [
+        [
+          {
+            "node": "Sanitize Node1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insert neuro response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait for Council Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Expert Physiologist": {
+      "main": [
+        [
+          {
+            "node": "Sanitize Node3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insert physio response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait for Council Response",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Insert neuro response": {
+      "main": [
+        [
+          {
+            "node": "Wait for Council Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert psych response": {
+      "main": [
+        [
+          {
+            "node": "Wait for Council Response",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Insert physio response": {
+      "main": [
+        [
+          {
+            "node": "Wait for Council Response",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Wait for Council Response": {
+      "main": [
+        [
+          {
+            "node": "Get council messages from current iteration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sanitize Node1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sanitize Node2": {
+      "main": [
+        [
+          {
+            "node": "Send a text message12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sanitize Node3": {
+      "main": [
+        [
+          {
+            "node": "Send a text message13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Expert Psychologist": {
+      "main": [
+        [
+          {
+            "node": "Sanitize Node2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insert psych response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait for Council Response",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Epistemologist": {
+      "main": [
+        [
+          {
+            "node": "Insert fact check feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Epistemologist",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Claims": {
+      "main": [
+        [
+          {
+            "node": "Epistemologist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get council messages from current iteration": {
+      "main": [
+        [
+          {
+            "node": "Extract Claims",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Semantic Scholar search full paper": {
+      "ai_tool": [
+        [
+          {
+            "node": "Epistemologist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Semantic Scholar search abstract": {
+      "ai_tool": [
+        [
+          {
+            "node": "Epistemologist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Neuro Literature Search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Expert NeuroScientist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Physio Literature Search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Expert Physiologist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Psych Literature Search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Expert Psychologist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Expert NeuroScientist",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Payload": {
+      "main": [
+        [
+          {
+            "node": "Expert NeuroScientist",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Expert Psychologist",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Expert Physiologist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Expert NeuroScientist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Expert Psychologist",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Expert Psychologist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model12": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Expert Physiologist",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Expert Physiologist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model9": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Epistemologist",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Epistemologist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": ""
+  }
+}

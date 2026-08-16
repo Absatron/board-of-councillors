@@ -1,0 +1,1 @@
+{{ $fromAI("user_query") }}

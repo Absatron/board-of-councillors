@@ -1,0 +1,318 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "YOUR_FOLDER_ID",
+            "mode": "id"
+          },
+          "whatToSearch": "files",
+          "fileTypes": [
+            "application/vnd.google-apps.document"
+          ],
+          "includeTrashed": false
+        },
+        "options": {}
+      },
+      "id": "4c6800d0-c921-44bb-a619-221c1a61f5bd",
+      "name": "List Records Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -80,
+        112
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "",
+          "name": "Google_Drive_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "YOUR_FOLDER_ID",
+            "mode": "id"
+          },
+          "whatToSearch": "files",
+          "fileTypes": [
+            "application/vnd.google-apps.document"
+          ],
+          "includeTrashed": false
+        },
+        "options": {}
+      },
+      "id": "8fae9c13-d4c9-439e-984c-d5e9d4929410",
+      "name": "List Protocols Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -80,
+        320
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "",
+          "name": "Google_Drive_Account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "87dd3578-99ed-4149-aa55-ae13a54338cc",
+      "name": "Merge Folder Lists",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        160,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $json.id }}"
+      },
+      "id": "2728de01-1750-44b7-aa5e-b7e39a2e8826",
+      "name": "Fetch Document Content",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        400,
+        224
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "",
+          "name": "Google_Docs_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// Fallback order by known document IDs (prior hardcoded fetches).\nconst ID_ORDER = {\n  'YOUR_DOCUMENT_ID': 0,\n  'YOUR_DOCUMENT_ID': 1,\n  'YOUR_DOCUMENT_ID': 2,\n  'YOUR_DOCUMENT_ID': 3,\n  'YOUR_DOCUMENT_ID': 4,\n  'YOUR_DOCUMENT_ID': 5,\n  'YOUR_DOCUMENT_ID': 6,\n  'YOUR_DOCUMENT_ID': 7,\n  'YOUR_DOCUMENT_ID': 8,\n  'YOUR_DOCUMENT_ID': 9,\n  'YOUR_DOCUMENT_ID': 10,\n};\n\nfunction rankByName(name) {\n  const n = (name || '').toLowerCase();\n  if (/neurophysiology/.test(n)) return 0;\n  if (/ens|gastroenterology|gastro/.test(n)) return 2;\n  if (/psychology/.test(n)) return 3;\n  if (/identity/.test(n)) return 4;\n  if (/social/.test(n) && !/protocol/.test(n)) return 5;\n  if (/sleep protocol/.test(n)) return 6;\n  if (/sleep/.test(n)) return 1;\n  if (/exercise/.test(n)) return 7;\n  if (/skin/.test(n)) return 8;\n  if (/balanced/.test(n)) return 9;\n  if (/low-carbohydrate/.test(n)) return 10;\n  return 99;\n}\n\nfunction rank(documentId, name) {\n  if (ID_ORDER[documentId] !== undefined) return ID_ORDER[documentId];\n  return rankByName(name);\n}\n\nconst sorted = items\n  .map((item) => ({\n    documentId: item.json.documentId || item.json.id,\n    content: item.json.content ?? '',\n    name: item.json.name || '',\n  }))\n  .sort((a, b) => rank(a.documentId, a.name) - rank(b.documentId, b.name));\n\nreturn sorted.map(({ documentId, content }) => ({\n  json: { documentId, content },\n}));\n"
+      },
+      "id": "a8b51c99-35fb-442b-b390-a84e3848a33a",
+      "name": "Format Documents",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "id": "8cdd4f6e-f384-49a4-a4c1-05197f3aa33d",
+      "name": "Aggregate All Data",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        768,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// 1. Extract Life History\n// Filter for items that specifically have a 'documentId'\nconst lifeHistory = items\n  .filter(item => item.json.documentId)\n  .map(item => item.json.content)\n  .join('\\n\\n');\n\n// 2. Extract Conversation History\n// Filter for items that specifically represent an AI agent message\nconst conversation_history = items\n  .filter(item => item.json.agent_name)\n  .map(item => {\n    let msgBlock = `[${item.json.agent_name} - Iteration ${item.json.iteration}]: ${item.json.content}`;\n    \n    // Append fact-checker feedback if it exists from previous iterations\n    if (item.json.fact_check_feedback) {\n      msgBlock += `\\n\\n[Epistemologist Fact-Check on ${item.json.agent_name}]:\\n${item.json.fact_check_feedback}`;\n    }\n    \n    return msgBlock;\n  })\n  .join('\\n\\n--------------------------------------------------\\n\\n');\n\n// 3. Extract Session Variables\n// Find the single item in the array that contains the session data\nconst sessionData = items.find(item => item.json.current_session_id)?.json || {};\n\n// 4. Return the unified payload\nreturn [{\n  json: {\n    lifeHistory: lifeHistory,\n    session_id: sessionData.current_session_id,\n    max_loops: sessionData.max_loops,\n    conversation_history: conversation_history\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        736
+      ],
+      "id": "fcb9e94f-250c-4c01-9fdf-27a7c754a9a0",
+      "name": "Combine content1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT agent_name, iteration, content, fact_check_feedback, created_at\nFROM council_messages\nWHERE session_id = '{{ $('Get Current Session ID').first().json.current_session_id }}'\nORDER BY iteration ASC, created_at ASC",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -64,
+        976
+      ],
+      "id": "aff6d43a-1002-4db7-b5bd-f102e968c14f",
+      "name": "Get council messages from current session1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -496,
+        544
+      ],
+      "id": "e83e7a12-5822-4f34-80c3-a188ac7c1d81",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT current_session_id, max_loops\nFROM session_state\nORDER BY updated_at DESC\nLIMIT 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -64,
+        768
+      ],
+      "id": "f766a2ed-31cc-45e4-9088-6a29441d5fc8",
+      "name": "Get Current Session ID",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "List Records Folder": {
+      "main": [
+        [
+          {
+            "node": "Merge Folder Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List Protocols Folder": {
+      "main": [
+        [
+          {
+            "node": "Merge Folder Lists",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Folder Lists": {
+      "main": [
+        [
+          {
+            "node": "Fetch Document Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Document Content": {
+      "main": [
+        [
+          {
+            "node": "Format Documents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Documents": {
+      "main": [
+        [
+          {
+            "node": "Aggregate All Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate All Data": {
+      "main": [
+        [
+          {
+            "node": "Combine content1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get council messages from current session1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate All Data",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "List Records Folder",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "List Protocols Folder",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Current Session ID",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get council messages from current session1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Current Session ID": {
+      "main": [
+        [
+          {
+            "node": "Aggregate All Data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": ""
+  }
+}

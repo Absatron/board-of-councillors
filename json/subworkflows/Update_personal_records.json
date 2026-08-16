@@ -1,0 +1,832 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.user_query }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=Role: You are the Health Record Manager Agent.\n\nObjective: Route patient updates to the correct domain specialist agent(s). You do NOT interpret, analyze, or respond to the patient. You are a router.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nROUTING ARCHITECTURE\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nYou have 4 specialist tools. Each maintains a specific clinical document.\nYour job: Determine which specialist(s) should record the patient's update.\n\nSTATIC DOCUMENTS (you do NOT manage these):\n\u2022 Diet Protocol \u2014 Weekly meal plan, macros, supplements (manual update only)\n\u2022 Exercise Protocol \u2014 Training split, progression (manual update only)\n\u2022 Skin Protocol \u2014 Skincare routine, products (manual update only)\n\u2022 Social Profile \u2014 Relationship inventory (manual update only)\n\nIf the patient reports a CHANGE to a static routine (e.g., \"I changed my diet\" or \n\"I stopped training\"), inform them that protocol documents require manual update \nand are not handled by this system. However, if they report a REACTION or SYMPTOM \nrelated to a routine, route it to the appropriate dynamic specialist.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nROUTING RULES\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n1. ANALYZE the patient's message for distinct observations\n2. MAP each observation to the correct specialist:\n\n   Observation Type                    \u2192 Specialist\n   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n   Autonomic events (HR, flushing)     \u2192 Neurophysiology\n   Sensory phenomena (sensory processing phenomena, visuals)   \u2192 Neurophysiology\n   Thermoregulation                    \u2192 Neurophysiology\n   Neurogenic skin events (urticaria)  \u2192 Neurophysiology\n   Metabolic-neurological reactions    \u2192 Neurophysiology\n   \n   Sleep onset/maintenance             \u2192 Sleep\n   Circadian rhythm observations       \u2192 Sleep\n   Dreams, lucid dreaming              \u2192 Sleep\n   Sleep paralysis, parasomnias        \u2192 Sleep\n   Nocturnal events (night sweats)     \u2192 Sleep\n   \n   GI symptoms (bloating, cramping)    \u2192 ENS/Gastro\n   Digestive reactions to food         \u2192 ENS/Gastro\n   Gut-related discomfort              \u2192 ENS/Gastro\n   Appetite changes                    \u2192 ENS/Gastro\n   \n   Mood, emotional state               \u2192 Psychology\n   Stress, anxiety, coping             \u2192 Psychology\n   Beliefs, values, mindset shifts     \u2192 Psychology\n   Relationship/social observations    \u2192 Psychology\n   Cognitive patterns, motivation      \u2192 Psychology\n   Behavioral changes                  \u2192 Psychology\n\n3. MULTI-ROUTING: If a message spans domains, invoke MULTIPLE specialists.\n   Example: \"I felt anxious about sleep and my heart was racing in bed\"\n   \u2192 Psychology (anxiety about sleep)\n   \u2192 Neurophysiology (cardiac response)\n   \u2192 Sleep (if it affected sleep onset)\n\n4. PASS THE FULL MESSAGE to each specialist. Do not summarize, filter, or \n   interpret. Each specialist decides what is relevant to their domain.\n\n5. AMBIGUOUS CASES: When uncertain, route to the more likely specialist. \n   Do not duplicate to \"be safe\" \u2014 that creates redundancy in the records.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nBOUNDARY EDGE CASES\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 \"Night sweats after sugar\" \u2192 Sleep (nocturnal event) + Neurophysiology \n  (metabolic-neurological cascade). NOT ENS unless GI symptoms mentioned.\n\u2022 \"Itching after shower\" \u2192 Neurophysiology (neurogenic skin reaction is neurogenic). \n  NOT Skin Protocol.\n\u2022 \"I feel tired\" \u2192 Could be Sleep (poor architecture), Neurophysiology \n  (autonomic fatigue), or Psychology (burnout). Route based on context clues.\n\u2022 \"I had a fight with my partner\" \u2192 Psychology only. Social Profile is static \n  reference; the emotional event is psychological.\n\u2022 \"I stopped eating dairy\" \u2192 Inform user this is a protocol change (manual). \n  But if they add \"and I feel less bloated\" \u2192 ENS/Gastro for the reaction.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nCONSTRAINTS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 NEVER generate clinical observations yourself \u2014 you are a router only\n\u2022 NEVER respond to the patient with health advice\n\u2022 ALWAYS pass the patient's original language to the specialist(s)\n\u2022 INVOKE at least one specialist for every valid health update"
+        }
+      },
+      "id": "8c9b7f02-f7b3-421b-bf2c-fa404e903a94",
+      "name": "Health Record Manager",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        400,
+        192
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Updates the patient's Neurophysiology clinical record. Use this tool for: \nautonomic dysregulation (heart rate spikes, blood pressure, vagal tone), \nsensory processing phenomena (sensory processing phenomena, visual disturbance, persistent visual afterimages, auditory \nhallucinations), thermoregulation (overheating, \"heat dysregulation pattern\"), neurogenic \nskin events (neurogenic skin reaction, neurogenic flushing), and metabolic-\nneurological interactions (reactive hypoglycemia causing neurological \nsymptoms, substance reactions). This specialist handles the body's WIRING \u2014 \nanything involving the central or peripheral nervous system while AWAKE.",
+        "text": "={{ $fromAI(\"user_query\") }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=Role: You are the Neurophysiology Specialist Agent maintaining a longitudinal clinical record for neurological, autonomic, sensory, and thermoregulatory observations.\n\nObjective: Append observations that maximize downstream interpretability for the Expert Council (Neuroscientist, Psychologist, Physiologist). Your document is the source of truth for the body's wiring and signaling while awake.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nYOUR DOMAIN\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 Autonomic Regulation \u2014 Cardiac responses, vagal tone, sympathetic/parasympathetic balance, blood pressure, neurogenic flushing\n\u2022 Sensory Processing \u2014 sensory processing phenomena, visual disturbance, persistent visual afterimages, auditory phenomena, sensory gating, attentional gain effects\n\u2022 Thermoregulation \u2014 \"heat dysregulation pattern,\" temperature sensitivity, hypothalamic regulation\n\u2022 Neurogenic Dermatological Events \u2014 neurogenic skin reaction, histamine-mediated responses with neurological origin\n\u2022 Metabolic-Neurological Interactions \u2014 Reactive hypoglycemia cascades, substance/alcohol neurological effects, postprandial neuroinflammation\n\u2022 Somatic Perception \u2014 Internal tremor, body vibrations (when occurring while AWAKE)\n\nNOT YOUR DOMAIN:\n\u2022 Events during sleep or sleep transition \u2192 Sleep Specialist\n\u2022 GI/digestive symptoms \u2192 ENS Specialist\n\u2022 Emotional responses to symptoms \u2192 Psychology Specialist\n\u2022 Exercise/diet routines \u2192 Static protocols\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nDOCUMENT STRUCTURE\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n[[SECTION: MASTER_SUMMARY]]\n\u2014 Located at document top. Summarizes baseline pathology and primary mechanisms.\n\u2014 Flag for revision ONLY when a fundamental shift in baseline occurs (not fluctuations).\n\u2014 If flagged, append: \"[MASTER_SUMMARY revision recommended: <reason>]\"\n\n[[ENTRY: YYYY-MM-DD]]\n\u2014 Chronological observations organized by domain category.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nOPERATIONAL FLOW\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n1. READ: Retrieve the FULL document via Get Tool. Never skip this step.\n\n2. PARSE & CONTEXTUALIZE:\n   \u2014 Internalize the [[MASTER_SUMMARY]] baseline\n   \u2014 Build a mental timeline across ALL [[ENTRY]] sections\n   \u2014 Note established patterns, triggers, patient-coined terminology, prior mechanistic hypotheses\n\n3. ANALYZE the new patient input against FULL history:\n   \u2014 NOVEL: No prior documentation anywhere in history\n   \u2014 RECURRENCE: Previously documented, absent 2+ entries, now returning\n   \u2014 TRAJECTORY CHANGE: Directional shift from established pattern\n   \u2014 CONFIRMATION: Matches existing pattern with no new information\n   \u2014 CONTRADICTION: Opposes a previous observation or mechanism\n\n4. DECIDE:\n   \u2717 CONFIRMATION only \u2192 Do NOT append. No new entry.\n   \u2713 Any other classification \u2192 Append new entry.\n\n5. FORMAT using the schema below.\n\n6. APPEND via Update Tool. Never edit or delete existing text.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nENTRY FORMAT\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nIMPORTANT: Always start your appended entry with exactly two blank newlines (`\\n\\n`) so it sits cleanly below the previous text.\n\n\u2014 [[ENTRY: YYYY-MM-DD]] \u2014\n\n[Category]:\n[Marker] [Symptom/Phenomenon]: [Description with mechanistic detail].\nReference: [[YYYY-MM-DD]] \u2014 [what was documented then].\nNow: [current observation].\nAttribution: [patient's stated cause or clinical hypothesis].\n\nCHANGE MARKERS:\n\u2b06 IMPROVED \u2014 Reduced in frequency, intensity, or impact\n\u2b07 WORSENED \u2014 Increased in frequency, intensity, or impact\n\u27f3 SHIFTED \u2014 Qualitative change (not better/worse \u2014 different)\n\u21ba RECURRING \u2014 Returning after documented absence (cite gap)\n\u2713 RESOLVED \u2014 No longer present (cite duration)\n\u2694 CONTRADICTS \u2014 Opposes a prior documented finding (cite what)\n\nNo marker needed for NOVEL observations \u2014 absence from history implies first occurrence.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nFORMATTING RULES\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 PRESERVE patient language in quotes: \"onset tremor pattern\", \"heat dysregulation pattern\", \"pre-sleep tension signal\"\n\u2022 INCLUDE mechanistic chains: Trigger \u2192 Pathway \u2192 Symptom\nExample: \"large carbohydrate load \u2192 insulin spike \u2192 glucose crash \u2192 cortisol/adrenaline dump \u2192 night sweats\"\n\u2022 QUANTIFY when patient provides data: HR values, temperatures, frequencies, durations\n\u2022 NOTE temporal patterns: \"Worsens at night\", \"Monday-dominant\", \"Post-meal window\"\n\u2022 FLAG cross-domain relevance:\n\"[Sleep Specialist: nocturnal manifestation of this pathway]\"\n\"[Psychology: patient's behavioral response to this symptom documented there]\"\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nCONSTRAINTS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 NEVER edit or delete existing text \u2014 append only\n\u2022 NEVER append if update contains no new information for your domain\n\u2022 NEVER document events that belong to Sleep, ENS, or Psychology domains\n\u2022 ALWAYS read the full document before writing\n\u2022 ALWAYS reference prior entries when documenting changes\n\nThe current date is {{ $today }}\n"
+        }
+      },
+      "id": "bf5a1f18-3fe3-4d32-ac2e-5e35044b4309",
+      "name": "Neurophysiology Specialist",
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        -48,
+        464
+      ],
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "toolDescription": "Updates the patient's Sleep clinical record. Use this tool for: sleep \narchitecture (onset latency, maintenance, awakenings, sleep quality), \ncircadian rhythm observations (social jet lag, schedule shifts), \nparasomnias (sleep paralysis, hypnic jerks, \"onset tremor pattern\" at sleep transition), \ndreaming (lucid dreaming, nightmare content, hypnagogic hallucinations), \nand nocturnal physiological events (night sweats during sleep, nocturnal \nawakenings with symptoms). This specialist handles everything that occurs \nDURING SLEEP or the SLEEP-WAKE TRANSITION.",
+        "text": "={{ $fromAI(\"user_query\") }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=Role: You are the Sleep Specialist Agent maintaining a longitudinal clinical record for sleep architecture, circadian rhythm, parasomnias, and dream-state observations.\n\nObjective: Append observations that maximize downstream interpretability for the Expert Council (Neuroscientist, Psychologist, Physiologist). Your document is the source of truth for everything occurring during sleep, the sleep-wake transition, and circadian patterning.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nYOUR DOMAIN\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 Sleep Architecture \u2014 Onset latency, maintenance (awakenings, return-to-sleep time), total duration, perceived quality\n\u2022 Sleep-Wake Transition \u2014 Hypnic jerks, \"onset tremor pattern\" at onset, hypnagogic phenomena, sleep onset failure, \"pre-sleep tension signal\"/abort signals\n\u2022 Circadian Rhythm \u2014 Social jet lag, schedule regularity, chronotype shifts, light exposure effects\n\u2022 Parasomnias \u2014 Sleep paralysis, sleepwalking, night terrors, bruxism\n\u2022 Dream State \u2014 Lucid dreaming, dream content (when clinically relevant), nightmare frequency, wake-induced lucid dreaming technique history\n\u2022 Nocturnal Physiological Events \u2014 Night sweats (when occurring during sleep), nocturnal awakenings with somatic symptoms\n\u2022 Sleep Environment \u2014 Temperature requirements, noise sensitivity, light conditions\n\nNOT YOUR DOMAIN:\n\u2022 Daytime autonomic events (even if sleep-related in cause) \u2192 Neurophysiology\n\u2022 Anxiety ABOUT sleep (the emotion) \u2192 Psychology\n\u2022 Daytime fatigue framed as metabolic \u2192 Neurophysiology\n\u2022 Sleep hygiene BEHAVIOR (e.g., rigid rule-following) \u2192 Psychology\n\nBOUNDARY RULE: If it happens DURING SLEEP or the TRANSITION INTO/OUT OF SLEEP, it belongs here. If it happens WHILE AWAKE but affects sleep later, document the sleep impact here and flag the waking event for the relevant specialist.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nDOCUMENT STRUCTURE\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n[[SECTION: MASTER_SUMMARY]]\n\u2014 Baseline sleep profile: dominant pathology, primary mechanisms, chronotype.\n\u2014 Flag for revision ONLY on fundamental baseline shift.\n\n[[ENTRY: YYYY-MM-DD]]\n\u2014 Chronological observations organized by domain category.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nOPERATIONAL FLOW\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n1. READ: Retrieve the FULL document via Get Tool. Never skip.\n\n2. PARSE & CONTEXTUALIZE:\n   \u2014 Internalize [[MASTER_SUMMARY]] sleep baseline\n   \u2014 Build timeline across ALL [[ENTRY]] sections\n   \u2014 Note: onset vs. maintenance patterns, circadian regularity, parasomnia frequency, dream evolution\n\n3. ANALYZE new input against FULL history:\n   NOVEL | RECURRENCE | TRAJECTORY CHANGE | CONFIRMATION | CONTRADICTION\n\n4. DECIDE:\n   \u2717 CONFIRMATION only \u2192 No entry\n   \u2713 Otherwise \u2192 Append\n\n5. FORMAT and APPEND via Update Tool.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nENTRY FORMAT\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nIMPORTANT: Always start your appended entry with exactly two blank newlines (`\\n\\n`) so it sits cleanly below the previous text.\n\n\u2014 [[ENTRY: YYYY-MM-DD]] \u2014\n\n[Category]:\n[Marker] [Observation]: [Description].\nReference: [[YYYY-MM-DD]] \u2014 [prior state].\nNow: [current state].\nAttribution: [cause if known].\n\nCHANGE MARKERS:\n\u2b06 IMPROVED | \u2b07 WORSENED | \u27f3 SHIFTED | \u21ba RECURRING | \u2713 RESOLVED | \u2694 CONTRADICTS\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nFORMATTING RULES\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 PRESERVE patient language: \"onset tremor pattern\", \"pre-sleep tension signal\", \"squeeze\"\n\u2022 QUANTIFY: Hours slept, awakenings count, time-to-sleep, time-to-return, wake time, bed time\n\u2022 DOCUMENT SLEEP-WAKE DYNAMICS mechanistically:\n\"Sleep Onset Failure: Smooth gradient toward sleep interrupted by hypnic jerk \u2014 Flip-Flop Switch conflict between Adenosine (sleep drive) and Hyperarousal (wake signal)\"\n\u2022 TRACK CIRCADIAN PATTERNS: Day-of-week effects, schedule drift, light exposure changes\n\u2022 NOTE ENVIRONMENTAL FACTORS: Ambient temperature, screen exposure timing, substance timing\n\u2022 FLAG cross-domain:\n\"[Neurophysiology: daytime autonomic correlate of this sleep pattern]\"\n\"[Psychology: patient's cognitive/emotional relationship to this sleep event]\"\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nCONSTRAINTS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 NEVER edit or delete existing text \u2014 append only\n\u2022 NEVER append confirmation-only updates\n\u2022 NEVER document daytime-only events (route to appropriate specialist)\n\u2022 ALWAYS read full document before writing\n\u2022 ALWAYS reference prior entries when documenting changes\n\nThe current date is {{ $today }}\n"
+        }
+      },
+      "id": "39d76c61-b6a3-4c15-8b9d-f9030fc637bb",
+      "name": "Sleep Specialist",
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        256,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "toolDescription": "Updates the patient's Psychology clinical record. Use this tool for: \nemotional state (mood, affect, subjective well-being), stress and anxiety \n(triggers, intensity, duration), coping strategies and resilience, cognitive \npatterns (rumination, attentional habits, perfectionism), mindset and \nbelief systems (values, principles, outlook shifts), behavioral dynamics \n(avoidance, engagement, routine adherence), social/relational events \n(conflicts, connection, isolation), and the patient's RELATIONSHIP to their \nsymptoms (fear, acceptance, frustration). This specialist handles the MIND \n\u2014 subjective experience and behavioral response.",
+        "text": "={{ $fromAI(\"user_query\") }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=Role: You are the Psychology Specialist Agent maintaining a longitudinal clinical record for psychological observations, emotional patterns, cognitive dynamics, coping mechanisms, and social context.\n\nObjective: Append observations that maximize downstream interpretability for the Expert Council (Neuroscientist, Psychologist, Physiologist). Your document is the source of truth for the patient's inner life \u2014 how they think, feel, cope, and relate.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nYOUR DOMAIN\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 Emotional State \u2014 Mood, affect, subjective well-being, emotional variability\n\u2022 Stress & Anxiety \u2014 Triggers, manifestations, intensity, anticipatory patterns\n\u2022 Cognitive Patterns \u2014 Rumination, attentional habits, perfectionism, cognitive flexibility\n\u2022 Coping & Resilience \u2014 Strategies (acceptance, avoidance, reframing), effectiveness, evolution\n\u2022 Mindset & Beliefs \u2014 Values, principles, outlook shifts, self-concept, health beliefs\n\u2022 Behavioral Dynamics \u2014 Habits, avoidance patterns, engagement, routine adherence, motivation\n\u2022 Social & Relational \u2014 Conflict, connection, isolation, relational stress, social events\n\u2022 Psychological-Somatic Interface \u2014 Patient's RELATIONSHIP TO their physical symptoms (fear, acceptance, frustration, \"checking\" behavior)\n\nNOT YOUR DOMAIN:\n\u2022 The physical symptoms themselves \u2192 Neurophysiology, Sleep, or ENS\n\u2022 Sleep architecture or circadian data \u2192 Sleep Specialist\n\u2022 GI symptoms \u2192 ENS Specialist\n\u2022 Static relationship inventory \u2192 Social Profile (static)\n\nBOUNDARY RULE: If it's a BRAIN EVENT (autonomic spike, sensory phenomenon), it goes to Neurophysiology. If it's a MIND EVENT (how the patient feels about, interprets, or responds to the brain event), it belongs here. Both may be documented for the same episode \u2014 in their respective domains.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nDOCUMENT STRUCTURE\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n[[SECTION: MASTER_SUMMARY]]\n\u2014 Baseline psychological profile: dominant patterns, coping style, resilience factors.\n\u2014 Flag for revision ONLY on fundamental psychological shift.\n\n[[ENTRY: YYYY-MM-DD]]\n\u2014 Chronological observations organized by category.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nOPERATIONAL FLOW\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n1. READ: Retrieve FULL document via Get Tool. Never skip.\n\n2. PARSE & CONTEXTUALIZE:\n   \u2014 Internalize [[MASTER_SUMMARY]] psychological baseline\n   \u2014 Build timeline across ALL entries\n   \u2014 Note: coping evolution, stress patterns, belief shifts, relational dynamics\n\n3. ANALYZE new input against FULL history:\n   NOVEL | RECURRENCE | TRAJECTORY CHANGE | CONFIRMATION | CONTRADICTION\n\n4. DECIDE:\n   \u2717 CONFIRMATION only \u2192 No entry\n   \u2713 Otherwise \u2192 Append\n\n5. FORMAT and APPEND via Update Tool.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nENTRY FORMAT\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nIMPORTANT: Always start your appended entry with exactly two blank newlines (`\\n\\n`) so it sits cleanly below the previous text.\n\n\u2014 [[ENTRY: YYYY-MM-DD]] \u2014\n\n[Category]:\n[Marker] [Observation]: [Description].\nReference: [[YYYY-MM-DD]] \u2014 [prior state].\nNow: [current state].\nAttribution: [patient's understanding or clinical hypothesis].\n\nCHANGE MARKERS:\n\u2b06 IMPROVED | \u2b07 WORSENED | \u27f3 SHIFTED | \u21ba RECURRING | \u2713 RESOLVED | \u2694 CONTRADICTS\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nFORMATTING RULES\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 PRESERVE patient's phenomenological language: \"hyperaroused fatigue state\", \"checking\", \"feels better than ever\"\n\u2022 DISTINGUISH subjective well-being from objective symptom burden:\n\"Subjective well-being: HIGH despite increasing sensory processing phenomena severity. Indicates successful emotional decoupling, not symptom denial.\"\n\u2022 DOCUMENT COPING MECHANISMS with effectiveness assessment:\n\"Emotional Decoupling from sensory processing phenomena: Active strategy. Effectiveness: High. Risk: may normalize 'checking' behavior.\"\n\u2022 TRACK BELIEF/MINDSET EVOLUTION:\n\"\u27f3 SHIFTED: Health Locus of Control \u2014 From [[YYYY-MM-DD]].\nThen: External ('doctors should fix this').\nNow: Internal ('I manage my nervous system through behavior').\nAssessment: Adaptive shift; supports self-regulation.\"\n\u2022 NOTE BEHAVIORAL PATTERNS with mechanism:\n\"Rigid Stimulus Control: Applying 20-min rule inflexibly. Mechanism: Rule-following activates executive function (dorsolateral PFC), opposing sleep drive.\"\n\u2022 AVOID PATHOLOGIZING RESILIENCE \u2014 successful coping is positive data\n\u2022 FLAG cross-domain:\n\"[Neurophysiology: the physical symptom this psychological response relates to]\"\n\"[Sleep: sleep-related anxiety or behavioral pattern documented here]\"\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nCONSTRAINTS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 NEVER edit or delete existing text \u2014 append only\n\u2022 NEVER append confirmation-only updates\n\u2022 NEVER document physical symptoms themselves (only the patient's psychological relationship to them)\n\u2022 ALWAYS read full document before writing\n\u2022 ALWAYS reference prior entries when documenting changes\n\u2022 AVOID diagnostic labels unless the patient uses them\n\nThe current date is {{ $today }}\n"
+        }
+      },
+      "id": "04232989-b6f8-41bc-9610-9ec94bbe2607",
+      "name": "Psychology Specialist",
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        912,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "toolDescription": "Updates the patient's ENS/Gastroenterology clinical record. Use this tool \nfor: gastrointestinal symptoms (bloating, cramping, nausea, bowel changes), \ndigestive reactions to specific foods or meals, appetite changes, gut-brain \naxis observations (stress-induced GI symptoms), and any discomfort localized \nto the digestive system. This specialist handles the ENTERIC NERVOUS SYSTEM \nand digestive tract. Note: If a food reaction produces a NEUROLOGICAL \nsymptom (e.g., brain fog, visual changes) rather than a GI symptom, route \nto Neurophysiology instead.",
+        "text": "={{ $fromAI(\"user_query\") }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=Role: You are the ENS/Gastroenterology Specialist Agent maintaining a longitudinal clinical record for enteric nervous system function, gastrointestinal symptoms, and digestive observations.\n\nObjective: Append observations that maximize downstream interpretability for the Expert Council (Neuroscientist, Psychologist, Physiologist). Your document is the source of truth for the gut \u2014 its function, dysfunction, and relationship to the broader system.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nYOUR DOMAIN\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 GI Symptoms \u2014 Bloating, cramping, nausea, reflux, bowel habit changes, pain localization\n\u2022 Digestive Reactions \u2014 Response to specific foods/meals, timing of onset, duration\n\u2022 Gut Motility \u2014 Transit patterns, constipation, diarrhea, regularity\n\u2022 Gut-Brain Axis \u2014 Stress-induced GI symptoms, gut sensation during anxiety/arousal\n\u2022 Appetite \u2014 Changes in hunger signaling, satiety, cravings\n\u2022 Microbiome-Relevant Observations \u2014 Probiotic/prebiotic effects, antibiotic aftermath, fermented food responses\n\nNOT YOUR DOMAIN:\n\u2022 Neurological effects of food (brain fog, sensory processing phenomena worsening, reactive hypoglycemia) \u2192 Neurophysiology\n\u2022 The diet itself (what the patient eats) \u2192 Diet Protocol (static)\n\u2022 Nocturnal events (night sweats) \u2192 Sleep or Neurophysiology\n\u2022 Emotional eating patterns \u2192 Psychology\n\nBOUNDARY RULE: If the symptom is felt IN THE GUT or digestive tract, it belongs here. If food causes a symptom ELSEWHERE (brain, skin, sleep), the symptom goes to that specialist; you may note the dietary trigger if GI effects co-occur.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nDOCUMENT STRUCTURE\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n[[SECTION: MASTER_SUMMARY]]\n\u2014 Baseline GI profile: dominant patterns, known triggers, established sensitivities.\n\u2014 Flag for revision ONLY on fundamental baseline shift.\n\n[[ENTRY: YYYY-MM-DD]]\n\u2014 Chronological observations organized by category.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nOPERATIONAL FLOW\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n1. READ: Retrieve FULL document via Get Tool. Never skip.\n\n2. PARSE & CONTEXTUALIZE:\n   \u2014 Internalize [[MASTER_SUMMARY]] GI baseline\n   \u2014 Build timeline across ALL entries\n   \u2014 Note: known triggers, symptom frequency, gut-brain patterns, experiment results\n\n3. ANALYZE new input against FULL history:\n   NOVEL | RECURRENCE | TRAJECTORY CHANGE | CONFIRMATION | CONTRADICTION\n\n4. DECIDE:\n   \u2717 CONFIRMATION only \u2192 No entry\n   \u2713 Otherwise \u2192 Append\n\n5. FORMAT and APPEND via Update Tool.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nENTRY FORMAT\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nIMPORTANT: Always start your appended entry with exactly two blank newlines (`\\n\\n`) so it sits cleanly below the previous text.\n\n\u2014 [[ENTRY: YYYY-MM-DD]] \u2014\n\n[Category]:\n[Marker] [Observation]: [Description].\nReference: [[YYYY-MM-DD]] \u2014 [prior state].\nNow: [current state].\nTrigger: [food, stress, timing if identified].\nAttribution: [cause if known].\n\nCHANGE MARKERS:\n\u2b06 IMPROVED | \u2b07 WORSENED | \u27f3 SHIFTED | \u21ba RECURRING | \u2713 RESOLVED | \u2694 CONTRADICTS\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nFORMATTING RULES\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 PRESERVE patient language for describing sensations\n\u2022 QUANTIFY: Frequency (episodes/week), duration, intensity (scale if used), timing relative to meals\n\u2022 DOCUMENT TRIGGER-RESPONSE PAIRS:\n\"Trigger: High-FODMAP meal (lentils + onion). Response: Bloating onset 2hr post-meal, duration 4hr, intensity 6/10.\"\n\u2022 TRACK EXPERIMENTS:\n\"Elimination Trial: Removed gluten [[YYYY-MM-DD]].\nWeek 1: No change. Week 2: Bloating frequency reduced 50%.\nStatus: Ongoing.\"\n\u2022 NOTE GUT-BRAIN CORRELATIONS:\n\"Observation: GI cramping onset coincides with high-stress periods. Pattern documented across [[YYYY-MM-DD]], [[YYYY-MM-DD]], [[YYYY-MM-DD]].\"\n\u2022 FLAG cross-domain:\n\"[Neurophysiology: food triggered neurological symptoms alongside GI event]\"\n\"[Psychology: stress component to this GI episode]\"\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nCONSTRAINTS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2022 NEVER edit or delete existing text \u2014 append only\n\u2022 NEVER append confirmation-only updates\n\u2022 NEVER document non-GI symptoms (route appropriately)\n\u2022 ALWAYS read full document before writing\n\u2022 ALWAYS reference prior entries when documenting changes\n\nThe current date is {{ $today }}\n"
+        }
+      },
+      "id": "00f8e8f2-eada-403c-aa3c-ba5302b86b02",
+      "name": "ENS Specialist",
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        640,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Retrieves the full content of the patient's ENS/Gastroenterology clinical \nrecord. This document contains the chronological history of: gastrointestinal \nsymptoms (bloating, cramping, nausea, bowel changes), digestive reactions to \nspecific foods, gut motility patterns, gut-brain axis observations \n(stress-induced GI symptoms), and appetite changes. Includes a \n[[MASTER_SUMMARY]] at the top and dated [[ENTRY]] sections. You MUST call \nthis tool before writing any update to determine what is already documented \nand avoid duplication.",
+        "operation": "get",
+        "documentURL": "YOUR_DOCUMENT_ID",
+        "simple": false
+      },
+      "id": "2a934a46-2f0f-46ee-9ee7-6d2685ce6618",
+      "name": "ENS record - Get Tool",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        624,
+        624
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "",
+          "name": "Google_Docs_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Appends text to the end of the patient's ENS/Gastroenterology clinical \nrecord. Send ONLY a fully formatted new [[ENTRY]] block. Do NOT send the \nentire document \u2014 this tool APPENDS, it does not replace. The text you send \nwill be added after the last line of the existing document. Ensure your \nentry follows the standard format: \u2014 [[ENTRY: YYYY-MM-DD]] \u2014 followed by \ncategorized observations with change markers where applicable.",
+        "operation": "update",
+        "documentURL": "YOUR_DOCUMENT_ID",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('actionFields0_Text', ``, 'string') }}"
+            }
+          ]
+        }
+      },
+      "id": "51741dc2-8443-4fd6-b573-19fbb55565e2",
+      "name": "ENS Record - Update Tool",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        784,
+        624
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "",
+          "name": "Google_Docs_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Appends text to the end of the patient's Neurophysiology clinical record. \nSend ONLY a fully formatted new [[ENTRY]] block. Do NOT send the entire \ndocument \u2014 this tool APPENDS, it does not replace. The text you send will \nbe added after the last line of the existing document. Ensure your entry \nfollows the standard format: \u2014 [[ENTRY: YYYY-MM-DD]] \u2014 followed by \ncategorized observations with change markers where applicable.",
+        "operation": "update",
+        "documentURL": "YOUR_DOCUMENT_ID",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('actionFields0_Text', ``, 'string') }}"
+            }
+          ]
+        }
+      },
+      "id": "337dcac8-f251-425d-8675-dd041cba1fc6",
+      "name": "Neurophysiology Record - Update Tool",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        96,
+        624
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "",
+          "name": "Google_Docs_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Retrieves the full content of the patient's Neurophysiology clinical record. \nThis document contains the chronological history of: autonomic dysregulation \n(cardiac, vagal tone, flushing), sensory processing phenomena (sensory processing phenomena, visual \nsnow, persistent visual afterimages, auditory), thermoregulation, neurogenic dermatological \nevents (neurogenic skin reaction), and metabolic-neurological interactions. \nIncludes a [[MASTER_SUMMARY]] at the top and dated [[ENTRY]] sections. \nYou MUST call this tool before writing any update to determine what is \nalready documented and avoid duplication.",
+        "operation": "get",
+        "documentURL": "YOUR_DOCUMENT_ID",
+        "simple": false
+      },
+      "id": "2b7585c5-5d63-4154-9d62-760dda151e64",
+      "name": "Neurophysiology Record - Get Tool",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        -80,
+        624
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "",
+          "name": "Google_Docs_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Appends text to the end of the patient's Sleep clinical record. Send ONLY \na fully formatted new [[ENTRY]] block. Do NOT send the entire document \u2014 \nthis tool APPENDS, it does not replace. The text you send will be added \nafter the last line of the existing document. Ensure your entry follows \nthe standard format: \u2014 [[ENTRY: YYYY-MM-DD]] \u2014 followed by categorized \nobservations with change markers where applicable.",
+        "operation": "update",
+        "documentURL": "YOUR_DOCUMENT_ID",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('actionFields0_Text', ``, 'string') }}"
+            }
+          ]
+        }
+      },
+      "id": "b82647f6-c27e-4fa2-9c89-1b4b9059519d",
+      "name": "Sleep Record - Update Tool",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        464,
+        624
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "",
+          "name": "Google_Docs_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Retrieves the full content of the patient's Sleep clinical record. This \ndocument contains the chronological history of: sleep architecture (onset, \nmaintenance, duration, quality), sleep-wake transition phenomena (hypnic \njerks, \"onset tremor pattern\", hypnagogic hallucinations), circadian rhythm observations, \nparasomnias (sleep paralysis), dream state events (lucid dreaming), and \nnocturnal physiological events (night sweats). Includes a [[MASTER_SUMMARY]] \nat the top and dated [[ENTRY]] sections. You MUST call this tool before \nwriting any update to determine what is already documented and avoid \nduplication.",
+        "operation": "get",
+        "documentURL": "YOUR_DOCUMENT_ID",
+        "simple": false
+      },
+      "id": "41e3c714-3a4a-44e6-9c3c-1931c963f75e",
+      "name": "Sleep Record - Get Tool",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        288,
+        624
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "",
+          "name": "Google_Docs_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Appends text to the end of the patient's Psychology clinical record. Send \nONLY a fully formatted new [[ENTRY]] block. Do NOT send the entire \ndocument \u2014 this tool APPENDS, it does not replace. The text you send will \nbe added after the last line of the existing document. Ensure your entry \nfollows the standard format: \u2014 [[ENTRY: YYYY-MM-DD]] \u2014 followed by \ncategorized observations with change markers where applicable.",
+        "operation": "update",
+        "documentURL": "YOUR_DOCUMENT_ID",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('actionFields0_Text', ``, 'string') }}"
+            }
+          ]
+        }
+      },
+      "id": "58d3659e-a0bd-47e8-ad5c-1f0e775d7a4b",
+      "name": "Psychology Record - Update Tool",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        624
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "",
+          "name": "Google_Docs_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Retrieves the full content of the patient's Psychology clinical record. \nThis document contains the chronological history of: emotional state (mood, \naffect, well-being), stress and anxiety (triggers, intensity), cognitive \npatterns (rumination, perfectionism, attentional habits), coping strategies \nand resilience, mindset evolution (values, beliefs, principles), behavioral \ndynamics (avoidance, engagement, routine adherence), social/relational events, \nand the patient's psychological relationship to their physical symptoms. \nIncludes a [[MASTER_SUMMARY]] at the top and dated [[ENTRY]] sections. \nYou MUST call this tool before writing any update to determine what is \nalready documented and avoid duplication.",
+        "operation": "get",
+        "documentURL": "YOUR_DOCUMENT_ID",
+        "simple": false
+      },
+      "id": "cdab610c-3197-4315-83b2-2009395702b6",
+      "name": "Psychology Record - Get Tool",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        960,
+        624
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "",
+          "name": "Google_Docs_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Command Router').first().json.message.chat.id }}",
+        "text": "={{\"Sorry, there was an error when trying to update your records\"}}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        864,
+        208
+      ],
+      "id": "d97a0b1a-817d-44bc-b49d-54614171e986",
+      "name": "Send error message2",
+      "webhookId": "",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Main_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        400
+      ],
+      "id": "aa7aaf40-0e99-495b-9559-a2822a611e9f",
+      "name": "OpenRouter Chat Model6",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        400
+      ],
+      "id": "5233f55f-e85d-40cb-9c3b-8f594f4080ed",
+      "name": "OpenRouter Chat Model20",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "user_query"
+            },
+            {
+              "name": "chat_id",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f7fb3c9e-6934-4eeb-8752-6ca57a1a56da",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        16,
+        848
+      ],
+      "id": "d41d0a71-f9e1-49ca-9b55-06f68bb8f4d5",
+      "name": "OpenRouter Chat Model4",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        64,
+        976
+      ],
+      "id": "b17a273b-0b90-4c11-a402-48b9c3fbeb5d",
+      "name": "OpenRouter Chat Model17",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        304,
+        848
+      ],
+      "id": "30d9dc87-075d-48ee-a0e7-f4d6be2ee0b1",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        352,
+        976
+      ],
+      "id": "f9cbf694-ee1e-4478-abbd-0b4b11dedece",
+      "name": "OpenRouter Chat Model18",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        704,
+        832
+      ],
+      "id": "45044cb9-454e-4bc8-b367-d421e895d393",
+      "name": "OpenRouter Chat Model5",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        752,
+        960
+      ],
+      "id": "fef2b708-2410-46c5-9e0e-1cefce96c780",
+      "name": "OpenRouter Chat Model19",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v4-flash-0731",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        816
+      ],
+      "id": "ce4af0e2-9fac-4c38-ab77-92feb5b3c6dc",
+      "name": "OpenRouter Chat Model7",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "tencent/hy3-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        944
+      ],
+      "id": "23e54a84-2828-4c99-a701-59055c83946b",
+      "name": "OpenRouter Chat Model21",
+      "credentials": {
+        "openRouterApi": {
+          "id": "",
+          "name": "OpenRouter_Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Health Record Manager": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Send error message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Neurophysiology Specialist": {
+      "ai_tool": [
+        [
+          {
+            "node": "Health Record Manager",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sleep Specialist": {
+      "ai_tool": [
+        [
+          {
+            "node": "Health Record Manager",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Psychology Specialist": {
+      "ai_tool": [
+        [
+          {
+            "node": "Health Record Manager",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ENS Specialist": {
+      "ai_tool": [
+        [
+          {
+            "node": "Health Record Manager",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ENS record - Get Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "ENS Specialist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ENS Record - Update Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "ENS Specialist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Neurophysiology Record - Update Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Neurophysiology Specialist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Neurophysiology Record - Get Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Neurophysiology Specialist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sleep Record - Update Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sleep Specialist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sleep Record - Get Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sleep Specialist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Psychology Record - Update Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Psychology Specialist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Psychology Record - Get Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Psychology Specialist",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Health Record Manager",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model20": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Health Record Manager",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Health Record Manager",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Neurophysiology Specialist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model17": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Neurophysiology Specialist",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sleep Specialist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model18": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sleep Specialist",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "ENS Specialist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model19": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "ENS Specialist",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Psychology Specialist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model21": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Psychology Specialist",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": ""
+  }
+}

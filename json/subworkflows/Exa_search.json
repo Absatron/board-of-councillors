@@ -1,0 +1,129 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            },
+            {
+              "name": "specialty"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -176,
+        64
+      ],
+      "id": "7cac572d-20a0-4a6a-aca7-350394cde8a8",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "const specialty = $input.item.json.specialty || 'neuro';\nlet domains = [];\n\nif (specialty === 'physio') {\n  domains = [\"ncbi.nlm.nih.gov\", \"pubmed.ncbi.nlm.nih.gov\", \"nature.com\", \"thelancet.com\", \"sciencedirect.com\"];\n} else if (specialty === 'psych') {\n  domains = [\"ncbi.nlm.nih.gov\", \"pubmed.ncbi.nlm.nih.gov\", \"nature.com\", \"apa.org\", \"sciencedirect.com\"];\n} else {\n  // Default to neuro\n  domains = [\"ncbi.nlm.nih.gov\", \"pubmed.ncbi.nlm.nih.gov\", \"nature.com\", \"cell.com\", \"sciencedirect.com\"];\n}\n\nreturn {\n  query: $input.item.json.query,\n  includeDomains: domains\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        64
+      ],
+      "id": "95b41b04-5baf-434c-9ad7-1b691604bbf1",
+      "name": "Prepare Search Domains"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.exa.ai/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json.query }}\",\n  \"numResults\": 3,\n  \"useAutoprompt\": true,\n  \"includeDomains\": {{ JSON.stringify($json.includeDomains) }},\n  \"contents\": {\n    \"text\": true,\n    \"highlights\": true\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        256,
+        64
+      ],
+      "id": "cf5e6640-b71f-47df-8012-086a40a5f70d",
+      "name": "Exa search",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Exa_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const results = $input.item.json.results || [];\n  if (results.length === 0) {\n    return { response: \"No relevant results found for this query.\" };\n  }\n\n  let parsedString = \"\";\n  results.forEach((r, index) => {\n    parsedString += `[Result ${index + 1}]\\nTitle: ${r.title}\\nURL: ${r.url}\\n`;\n    \n    // NEW LOGIC: Prefer clean Semantic Highlights over raw website text\n    if (r.highlights && r.highlights.length > 0) {\n      parsedString += `Highlights:\\n${r.highlights.join(\"\\\\n...\\\\n\")}\\n`;\n    } else if (r.text) {\n      // Fallback for sites where highlights failed\n      parsedString += `Content: ${r.text.substring(0, 800)}...\\n`;\n    }\n    parsedString += \"\\n\";\n  });\n\n  return { response: parsedString };\n} catch (error) {\n  return { response: \"SYSTEM MESSAGE: The Exa search tool encountered an error processing results.\" };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        496,
+        64
+      ],
+      "id": "a111d4e3-7b24-4125-a4c1-19e03fa04748",
+      "name": "Format Response"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Prepare Search Domains",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Search Domains": {
+      "main": [
+        [
+          {
+            "node": "Exa search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Exa search": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": ""
+  }
+}

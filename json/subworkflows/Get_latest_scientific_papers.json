@@ -1,0 +1,526 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -384,
+        144
+      ],
+      "id": "64d59e73-ffc6-4042-8253-f0f44d7d8dcd",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = [];\n\n// Loop through all inputs received from the Merge node\nfor (const item of $input.all()) {\n  const response = item.json;\n\n  // Check if the response contains the 'data' array\n  if (response && response.data) {\n    for (const paper of response.data) {\n      // Only keep papers with an abstract, otherwise we can't embed anything useful\n      if (!paper.abstract) continue;\n\n      // Flatten the authors array into a comma-separated string\n      const authors = paper.authors ? paper.authors.map(a => a.name).join(', ') : 'Unknown';\n      \n      // Prefer the direct PDF link if available, otherwise use the Semantic Scholar URL\n      const pdfUrl = paper.openAccessPdf && paper.openAccessPdf.url ? paper.openAccessPdf.url : null;\n      const sourceUrl = pdfUrl || paper.url;\n\n      items.push({\n        json: {\n          title: paper.title || 'Untitled',\n          abstract: paper.abstract,\n          authors: authors,\n          year: paper.year,\n          source_url: sourceUrl\n        }\n      });\n    }\n  }\n}\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        144
+      ],
+      "id": "e8d8d561-223e-4356-88e3-014065525301",
+      "name": "Transform"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-embedding-2"
+      },
+      "id": "816b133c-3427-44e2-9183-c0c970af7670",
+      "name": "Google Gemini Embeddings",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        352
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "",
+          "name": "Google_Gemini_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "title",
+                "value": "={{ $json.title }}"
+              },
+              {
+                "name": "url",
+                "value": "={{ $json.source_url }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "91a48809-7007-4d9a-bb44-1af8709e5497",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        1616,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 200,
+        "options": {}
+      },
+      "id": "e405dcaf-45f3-4db3-9d36-2341b307f297",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": "scientific_literature",
+        "options": {
+          "columnNames": {
+            "values": {
+              "contentColumnName": "content"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.3,
+      "position": [
+        1488,
+        128
+      ],
+      "id": "33aeffa6-5139-4f99-b2a7-b3803bfb40fc",
+      "name": "Postgres PGVector Store",
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT COUNT(*) as count FROM scientific_literature WHERE metadata->>'url' = '{{ $json.source_url }}';",
+        "options": {}
+      },
+      "id": "82bf35e5-f81a-49f4-8f59-fd85cca62c6c",
+      "name": "Check if Paper Exists",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        720,
+        144
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "",
+          "name": "Postgres_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d17193e9-2b84-41ec-80bb-fe79c79f566d",
+              "leftValue": "={{ $json.count }}",
+              "rightValue": "0",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "52f9a021-3851-41be-b165-f70ee3b1dabf",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        944,
+        144
+      ],
+      "id": "72708415-e1a4-4051-971f-dd18480c73b6",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        288,
+        144
+      ],
+      "id": "4ec439de-220c-4d0d-a03f-b71ab9fcc9da",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "https://api.semanticscholar.org/graph/v1/paper/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "neuroscience"
+            },
+            {
+              "name": "fields",
+              "value": "title,abstract,authors,year,url,openAccessPdf"
+            },
+            {
+              "name": "publicationDateOrYear",
+              "value": "={{ $today.minus(7, \"days\").toFormat(\"yyyy-MM-dd\") }}:{{ $today.toFormat(\"yyyy-MM-dd\") }}"
+            },
+            {
+              "name": "limit",
+              "value": "100"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "491ff42a-525d-4367-b654-a90e0443a65f",
+      "name": "Get Latest NeuroScience Papers"
+    },
+    {
+      "parameters": {
+        "url": "https://api.semanticscholar.org/graph/v1/paper/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "physiology"
+            },
+            {
+              "name": "fields",
+              "value": "title,abstract,authors,year,url,openAccessPdf"
+            },
+            {
+              "name": "publicationDateOrYear",
+              "value": "={{ $today.minus(7, \"days\").toFormat(\"yyyy-MM-dd\") }}:{{ $today.toFormat(\"yyyy-MM-dd\") }}"
+            },
+            {
+              "name": "limit",
+              "value": "100"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        0,
+        192
+      ],
+      "id": "73234b74-38bc-481a-a2b5-39710315d99c",
+      "name": "Get Latest Physiology Papers"
+    },
+    {
+      "parameters": {
+        "url": "https://api.semanticscholar.org/graph/v1/paper/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "psychology"
+            },
+            {
+              "name": "fields",
+              "value": "title,abstract,authors,year,url,openAccessPdf"
+            },
+            {
+              "name": "publicationDateOrYear",
+              "value": "={{ $today.minus(7, \"days\").toFormat(\"yyyy-MM-dd\") }}:{{ $today.toFormat(\"yyyy-MM-dd\") }}"
+            },
+            {
+              "name": "limit",
+              "value": "100"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        0,
+        384
+      ],
+      "id": "fcc58886-f48f-45e6-b4dd-43465798d1b6",
+      "name": "Get Latest Psychology Papers"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e22938cf-898f-41ad-b1d5-24d1adfdc5ba",
+              "name": "title",
+              "value": "={{ $(\"Transform\").item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "270d4948-4fd3-40e9-be64-8393e1afb513",
+              "name": "abstract",
+              "value": "={{ $(\"Transform\").item.json.abstract }}",
+              "type": "string"
+            },
+            {
+              "id": "dc9cbe35-e115-46aa-a38f-a9cb7014603e",
+              "name": "authors",
+              "value": "={{ $(\"Transform\").item.json.authors }}",
+              "type": "string"
+            },
+            {
+              "id": "2f2f7efb-50b5-4b10-a292-690a266dafa2",
+              "name": "year",
+              "value": "={{ $(\"Transform\").item.json.year }}",
+              "type": "number"
+            },
+            {
+              "id": "8aa1c720-6d45-4df3-a15d-85f09abadaed",
+              "name": "source_url",
+              "value": "={{ $(\"Transform\").item.json.source_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "72291378-85b2-4899-aa39-4983797311ac",
+      "name": "Restore Original Item",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        128
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Latest NeuroScience Papers",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Latest Physiology Papers",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Latest Psychology Papers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform": {
+      "main": [
+        [
+          {
+            "node": "Check if Paper Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Embeddings": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Paper Exists": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Restore Original Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Transform",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Latest NeuroScience Papers": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Latest Physiology Papers": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get Latest Psychology Papers": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Restore Original Item": {
+      "main": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": ""
+  }
+}

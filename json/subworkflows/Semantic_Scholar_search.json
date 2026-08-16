@@ -1,0 +1,229 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "searchParam"
+            },
+            {
+              "name": "action_type"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -624,
+        192
+      ],
+      "id": "b6382a7c-6760-47f0-bf19-04d97169adcc",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.action_type }}",
+                    "rightValue": "abstract",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "f1684063-ae79-43aa-9376-b7d9c4f62818"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "abstract"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6c77dfe7-729e-4315-8dee-90e767906db0",
+                    "leftValue": "={{ $json.action_type }}",
+                    "rightValue": "full_paper",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "full paper"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -416,
+        192
+      ],
+      "id": "087dec22-cdb7-4adf-8965-cb9c99c7db6f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "https://api.semanticscholar.org/graph/v1/paper/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{$json.searchParam }}"
+            },
+            {
+              "name": "limit",
+              "value": "3"
+            },
+            {
+              "name": "fields",
+              "value": "title,abstract,year,authors,url"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -128,
+        96
+      ],
+      "id": "48f682f7-6daa-4029-8218-b30da2d301bd",
+      "name": "Semantic Scholar paper search",
+      "retryOnFail": true,
+      "waitBetweenTries": 2500,
+      "maxTries": 5
+    },
+    {
+      "parameters": {
+        "url": "=https://api.semanticscholar.org/graph/v1/paper/{{$json.searchParam }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "title,abstract,authors,year,url,openAccessPdf,tldr,citationCount"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -128,
+        288
+      ],
+      "id": "01727904-15ed-4fc4-bca7-29e1354da6af",
+      "name": "Semantic Scholar full paper search",
+      "retryOnFail": true,
+      "waitBetweenTries": 2500,
+      "maxTries": 5
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  // Attempt to extract the data array, fallback to the raw json if it's an array itself\n  let results = $input.item.json.data || $input.item.json;\n  \n  // Ensure results is actually an array before trying to iterate over it\n  if (!Array.isArray(results)) {\n    // If the API returns { total: 0, offset: 0 } without a data array\n    results = [];\n  }\n\n  // If the array is empty, return a polite fallback message instead of throwing an error\n  if (results.length === 0) {\n    return { response: \"No papers found for this query. Try broadening your search terms.\" };\n  }\n\n  let parsedString = \"\";\n  results.forEach((r, index) => {\n    parsedString += `[Paper ${index + 1}]\\n`;\n    if (r.paperId) parsedString += `Paper ID: ${r.paperId}\\n`;\n    parsedString += `Title: ${r.title}\\n`;\n    parsedString += `Year: ${r.year || \"Unknown\"}\\n`;\n    \n    // Safely check for nested properties\n    if (r.tldr && r.tldr.text) {\n      parsedString += `TLDR: ${r.tldr.text}\\n`;\n    }\n    \n    if (r.abstract) {\n      parsedString += `Abstract: ${r.abstract}\\n`;\n    }\n    \n    if (r.openAccessPdf && r.openAccessPdf.url) {\n      parsedString += `PDF URL: ${r.openAccessPdf.url}\\n`;\n    } else if (r.url) {\n      parsedString += `URL: ${r.url}\\n`;\n    }\n    parsedString += `\\n`;\n  });\n\n  return { response: parsedString };\n  \n} catch (error) {\n  // Catch any unexpected parsing errors and return them cleanly back to the LLM\n  // so the Agent doesn't crash and get stuck in an endless retry loop\n  return { \n    response: `System Message (API Error): Could not parse Semantic Scholar output. Ensure the search query was valid. Error details: ${error.message}` \n  };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        96
+      ],
+      "id": "5e46a363-d151-4e48-ba23-21305b2ee52e",
+      "name": "Format response"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Semantic Scholar paper search",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Semantic Scholar full paper search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Semantic Scholar paper search": {
+      "main": [
+        [
+          {
+            "node": "Format response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": ""
+  }
+}
