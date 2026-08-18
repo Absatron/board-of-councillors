@@ -1,6 +1,6 @@
 [[SECTION: MASTER_SUMMARY]]
 
-Baseline sleep profile: Historically adequate sleeper (~7–8 h) with mild weekend schedule shift. Primary issue emerging over past 2 weeks: sleep maintenance insomnia with early-morning awakenings (03:00–04:00) and reduced subjective refreshment. Sleep onset latency generally normal (~15–25 min). No documented parasomnias.
+Baseline sleep profile: Historically adequate sleeper (7–8 h) with mild weekend schedule shift. Primary issue emerging over past 2 weeks: sleep maintenance insomnia with early-morning awakenings (03:00–04:00) and reduced subjective refreshment. Sleep onset latency generally normal (15–25 min). No documented parasomnias.
 
 — [[ENTRY: 2026-07-08]] —
 

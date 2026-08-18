@@ -16,9 +16,9 @@ TYPICAL WEEKDAY PATTERN
 
 Morning: Coffee (often skipped breakfast until 10:00)
 Mid-morning: Second coffee; sometimes pastry if in office
-Lunch: ~13:00–14:00 — sandwich or meal deal; often eaten quickly at desk
-Afternoon: Third coffee or espresso (~15:00)
-Evening: Home-cooked meal ~19:30 — rice/pasta, chicken or fish, vegetables
+Lunch: 13:00–14:00 — sandwich or meal deal; often eaten quickly at desk
+Afternoon: Third coffee or espresso (15:00)
+Evening: Home-cooked meal 19:30 — rice/pasta, chicken or fish, vegetables
 
 Weekend: More variable; 1–2 restaurant meals; occasional alcohol
 
